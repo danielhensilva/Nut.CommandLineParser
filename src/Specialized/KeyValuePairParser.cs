@@ -27,11 +27,35 @@ namespace Nut.CommandLineParser.Specialized
 
             for (var i = 0; i < count; i++)
             {
+                if (matches[i].Groups[2].Value != "")
+                {
+                    pairs[i] = new KeyValuePair<string, string>(
+                        key: matches[i].Groups[2].Value,
+                        value: matches[i].Groups[3].Value
+                    );
+                }
+
+                if (matches[i].Groups[4].Value != "")
+                {
+                    pairs[i] = new KeyValuePair<string, string>(
+                        key: matches[i].Groups[4].Value,
+                        value: matches[i].Groups[5].Value
+                    );
+                }
+
                 if (matches[i].Groups[6].Value != "") 
                 {
                     pairs[i] = new KeyValuePair<string, string>(
                         key: matches[i].Groups[6].Value,
                         value: matches[i].Groups[7].Value
+                    );
+                }
+
+                if (matches[i].Groups[8].Value != "") 
+                {
+                    pairs[i] = new KeyValuePair<string, string>(
+                        key: matches[i].Groups[8].Value,
+                        value: null
                     );
                 }
 

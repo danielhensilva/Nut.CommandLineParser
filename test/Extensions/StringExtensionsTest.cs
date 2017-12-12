@@ -90,6 +90,7 @@ namespace Nut.CommandLineParser.Extensions.Test
 
         [Theory]
         [InlineData(null, null)]
+        [InlineData("  ", null)]
         [InlineData(" ", null)]
         [InlineData("", null)]
         [InlineData("alpha beta", "alpha")]

@@ -59,7 +59,14 @@ namespace Nut.CommandLineParser.Extensions
             if (string.IsNullOrWhiteSpace(target))
                 return null;
 
-            return target.Trim().Split(new[] {" "}, StringSplitOptions.RemoveEmptyEntries)[0];
+            var separator = new[] {" "};
+            var splitOptions = StringSplitOptions.RemoveEmptyEntries;
+            var words = target.Trim().Split(separator, splitOptions);
+
+            if (words.Length == 0)
+                return null;
+
+            return words[0];
         }
     }    
 }

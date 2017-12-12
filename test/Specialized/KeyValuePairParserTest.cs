@@ -55,22 +55,30 @@ namespace Nut.CommandLineParser.Specialized.Test
             collection[0].Value.Should().Be(expectedValue);
         }
 
-        // [Theory]
-        // [InlineData("-foo bar", "foo", "bar")]
-        // [InlineData("-key value", "key", "value")]
-        // [InlineData("-alpha beta", "alpha", "beta")]
-        // public void ParseMethodShouldParseSingleKeyValueParameterWithSingleSlash(string args, string expectedKey, string expectedValue)
-        // {
-        //     throw new NotImplementedException();
-        // }
+        [Theory]
+        [InlineData("-foo bar", "foo", "bar")]
+        [InlineData("-key value", "key", "value")]
+        [InlineData("-alpha beta", "alpha", "beta")]
+        public void ParseMethodShouldParseSingleKeyValueParameterWithSingleSlash(string args, string expectedKey, string expectedValue)
+        {
+            var collection = new KeyValuePairParser().Parse(args);
+            collection.Should().NotBeNull();
+            collection.Length.Should().Be(1);
+            collection[0].Key.Should().Be(expectedKey);
+            collection[0].Value.Should().Be(expectedValue);
+        }
 
-        // [Theory]
-        // [InlineData("--foo bar", "foo", "bar")]
-        // [InlineData("--key value", "key", "value")]
-        // [InlineData("--alpha beta", "alpha", "beta")]
-        // public void ParseMethodShouldParseSingleKeyValueParameterWithDoubleSlash(string args, string expectedKey, string expectedValue)
-        // {
-        //     throw new NotImplementedException();
-        // }
+        [Theory]
+        [InlineData("--foo bar", "foo", "bar")]
+        [InlineData("--key value", "key", "value")]
+        [InlineData("--alpha beta", "alpha", "beta")]
+        public void ParseMethodShouldParseSingleKeyValueParameterWithDoubleSlash(string args, string expectedKey, string expectedValue)
+        {
+            var collection = new KeyValuePairParser().Parse(args);
+            collection.Should().NotBeNull();
+            collection.Length.Should().Be(1);
+            collection[0].Key.Should().Be(expectedKey);
+            collection[0].Value.Should().Be(expectedValue);
+        }
     }
 }
