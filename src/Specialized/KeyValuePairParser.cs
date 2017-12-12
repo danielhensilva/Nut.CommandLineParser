@@ -27,40 +27,38 @@ namespace Nut.CommandLineParser.Specialized
 
             for (var i = 0; i < count; i++)
             {
-                if (matches[i].Groups[2].Value != "")
+                var groups = matches[i].Groups;
+
+                if (groups[2].Value != string.Empty)
                 {
                     pairs[i] = new KeyValuePair<string, string>(
-                        key: matches[i].Groups[2].Value,
-                        value: matches[i].Groups[3].Value
+                        key: groups[2].Value,
+                        value: groups[3].Value
                     );
                 }
-
-                if (matches[i].Groups[4].Value != "")
+                else if (groups[4].Value != string.Empty)
                 {
                     pairs[i] = new KeyValuePair<string, string>(
-                        key: matches[i].Groups[4].Value,
-                        value: matches[i].Groups[5].Value
+                        key: groups[4].Value,
+                        value: groups[5].Value
                     );
                 }
-
-                if (matches[i].Groups[6].Value != "") 
+                else if (groups[6].Value != string.Empty) 
                 {
                     pairs[i] = new KeyValuePair<string, string>(
-                        key: matches[i].Groups[6].Value,
-                        value: matches[i].Groups[7].Value
+                        key: groups[6].Value,
+                        value: groups[7].Value
                     );
                 }
-
-                if (matches[i].Groups[8].Value != "") 
+                else if (groups[8].Value != string.Empty) 
                 {
                     pairs[i] = new KeyValuePair<string, string>(
-                        key: matches[i].Groups[8].Value,
+                        key: groups[8].Value,
                         value: null
                     );
                 }
 
-                var fullMatch = matches[i].Groups[0].Value;
-                args = args.RemoveFirstOccurrence(fullMatch);
+                args = args.RemoveFirstOccurrence(groups[1].Value);
             }
 
             if (args.IsEmptyOrWhitespace())
