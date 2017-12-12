@@ -80,5 +80,21 @@ namespace Nut.CommandLineParser.Specialized.Test
             collection[0].Key.Should().Be(expectedKey);
             collection[0].Value.Should().Be(expectedValue);
         }
+
+        [Theory]
+        [InlineData("foo=bar alpha=beta", 2, new[] { "foo", "alpha" }, new[] { "bar", "beta" })]
+        [InlineData("alpha=beta gama=delta foo=bar key=value", 4, new[] { "alpha", "gama", "foo", "key" }, new[] { "beta", "delta", "bar", "value" })]
+        public void ParseMethodShouldParseDoubleKeyValueParameterWithEqualsSign(string args, int expectedLength, string[] expectedKeys, string[] expectedValues)
+        {
+            var collection = new KeyValuePairParser().Parse(args);
+            collection.Should().NotBeNull();
+            collection.Length.Should().Be(expectedLength);
+
+            for (int i = 0; i < collection.Length; i++) 
+            {
+                collection[i].Key.Should().Be(expectedKeys[i]);
+                collection[i].Value.Should().Be(expectedValues[i]);
+            }
+        }
     }
 }
