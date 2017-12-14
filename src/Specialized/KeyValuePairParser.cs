@@ -19,53 +19,82 @@ namespace Nut.CommandLineParser.Specialized
             if (args.IsEmptyOrWhitespace())
                 return new KeyValuePair<string, string>[0];
 
-            var pattern = @"(--(\w+?) {1,}(\w+?)\b|-(\w+?) {1,}(\w+?)\b|\b(\w+?)=(\w+?)\b|\b(\w+)\b)";
-            var matches = Regex.Matches(args, pattern);
+            return this.ParseTokens(args).ToArray();
+        }
 
-            var count = matches.Count;
-            var pairs = new KeyValuePair<string, string>[count];
+        private IEnumerable<KeyValuePair<string, string>> ParseTokens(string args) 
+        {
+            var currentArgs = args;
 
-            for (var i = 0; i < count; i++)
+            while(true)
             {
-                var groups = matches[i].Groups;
+                if (currentArgs.IsEmptyOrWhitespace())
+                    break;
 
-                if (groups[2].Value != string.Empty)
+                var keyValue = this.ParseToken(currentArgs, out string match);
+                if (keyValue.HasValue)
                 {
-                    pairs[i] = new KeyValuePair<string, string>(
-                        key: groups[2].Value,
-                        value: groups[3].Value
-                    );
-                }
-                else if (groups[4].Value != string.Empty)
-                {
-                    pairs[i] = new KeyValuePair<string, string>(
-                        key: groups[4].Value,
-                        value: groups[5].Value
-                    );
-                }
-                else if (groups[6].Value != string.Empty) 
-                {
-                    pairs[i] = new KeyValuePair<string, string>(
-                        key: groups[6].Value,
-                        value: groups[7].Value
-                    );
-                }
-                else if (groups[8].Value != string.Empty) 
-                {
-                    pairs[i] = new KeyValuePair<string, string>(
-                        key: groups[8].Value,
-                        value: null
-                    );
+                    currentArgs = currentArgs.Substring(0, match.Length);
+                    yield return keyValue.Value;
+                    continue;
                 }
 
-                args = args.RemoveFirstOccurrence(groups[1].Value);
+                currentArgs = currentArgs.Trim();
+
+                var index = args.IndexOf(currentArgs);
+                var token = currentArgs.FirstWordOrDefault();
+                throw new UnexpectedTokenException(index, token);
+            }
+        }
+                
+        private KeyValuePair<string, string>? ParseToken(string args, out string match) 
+        {
+            match = null;
+
+            string[] patterns = 
+            {
+                @"^\s*--(\w+?) +(\w+?)\b",
+                @"^\s*-(\w{1}) +(\w+?)\b",
+                @"^\s*\b(\w+?)=(\w+?)\b",
+                @"^\s*\b(\w+)\b"
+            };
+
+            foreach (var pattern in patterns)
+            {
+                if (this.MatchNext(args, pattern, out match, out string key, out string value)) 
+                {
+                    return new KeyValuePair<string, string>(key, value);
+                }
             }
 
-            if (args.IsEmptyOrWhitespace())
-                return pairs;
+            return null;
+        }
+
+        private bool MatchNext(string args, string pattern, out string match, out string key, out string value) 
+        {
+            key = null;
+            value = null;
+            match = null;
+
+            var regex = new Regex(pattern);
+            var regexMatch = regex.Match(args);
             
-            var token = args.FirstWordOrDefault();
-            throw new UnexpectedTokenException(token);
+            if (regexMatch == null)
+                return false;
+
+            if (regexMatch.Groups == null)
+                return false;
+
+            if (regexMatch.Groups.Count > 0)
+                match = regexMatch.Groups[0].Value;
+
+            if (regexMatch.Groups.Count > 1)
+                key = regexMatch.Groups[1].Value;
+
+            if (regexMatch.Groups.Count > 2)
+                value = regexMatch.Groups[2].Value;
+
+            return true;
         }
     }
 }

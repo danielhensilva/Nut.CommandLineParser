@@ -29,12 +29,12 @@ namespace Nut.CommandLineParser.Specialized.Test
         }
 
         [Theory]
-        [InlineData("=", "=")]
-        [InlineData("--", "--")]
-        [InlineData("alpha=beta=gama", "=")]
-        [InlineData("--missingValue", "--")]
-        [InlineData("this=that -any -thing", "-")]
-        public void ParseMethodShouldThrowErrorForInvalidSingleKeyValueParameter(string invalidArgs, string expectedToken)
+        [InlineData("=", "=", 0)]
+        [InlineData("--", "--", 0)]
+        [InlineData("alpha=beta=gama", "=", 11)]
+        [InlineData("--missingValue", "--missingValue", 0)]
+        [InlineData("this=that -any -thing", "-any", 11)]
+        public void ParseMethodShouldThrowErrorForInvalidSingleKeyValueParameter(string invalidArgs, string expectedToken, int expectedIndex)
         {
             var exception = Assert.Throws<UnexpectedTokenException>(() => 
                 new KeyValuePairParser().Parse(invalidArgs)
