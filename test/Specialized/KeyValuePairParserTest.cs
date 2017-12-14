@@ -31,7 +31,7 @@ namespace Nut.CommandLineParser.Specialized.Test
         [Theory]
         [InlineData("=", "=", 0)]
         [InlineData("--", "--", 0)]
-        [InlineData("alpha=beta=gama", "=", 11)]
+        [InlineData("alpha=beta=gama", "=gama", 11)]
         [InlineData("--missingValue", "--missingValue", 0)]
         [InlineData("this=that -any -thing", "-any", 11)]
         public void ParseMethodShouldThrowErrorForInvalidSingleKeyValueParameter(string invalidArgs, string expectedToken, int expectedIndex)
@@ -56,9 +56,9 @@ namespace Nut.CommandLineParser.Specialized.Test
         }
 
         [Theory]
-        [InlineData("-foo bar", "foo", "bar")]
-        [InlineData("-key value", "key", "value")]
-        [InlineData("-alpha beta", "alpha", "beta")]
+        [InlineData("-f bar", "f", "bar")]
+        [InlineData("-k value", "k", "value")]
+        [InlineData("-a beta", "a", "beta")]
         public void ParseMethodShouldParseSingleKeyValueParameterWithSingleSlash(string args, string expectedKey, string expectedValue)
         {
             var collection = new KeyValuePairParser().Parse(args);

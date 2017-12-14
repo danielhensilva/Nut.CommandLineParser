@@ -29,22 +29,21 @@ namespace Nut.CommandLineParser.Specialized
             while(true)
             {
                 if (currentArgs.IsEmptyOrWhitespace())
-                    break;
+                    yield break;
 
                 var keyValue = this.ParseToken(currentArgs, out string match);
-                if (keyValue.HasValue)
-                {
-                    currentArgs = currentArgs.Substring(0, match.Length);
-                    yield return keyValue.Value;
-                    continue;
-                }
-
-                currentArgs = currentArgs.Trim();
-
-                var index = args.IndexOf(currentArgs);
-                var token = currentArgs.FirstWordOrDefault();
-                throw new UnexpectedTokenException(index, token);
+                if (keyValue == null) 
+                    break;
+                
+                currentArgs = currentArgs.Remove(0, match.Length);
+                yield return keyValue.Value;
             }
+
+            currentArgs = currentArgs.Trim();
+
+            var index = args.IndexOf(currentArgs);
+            var token = currentArgs.FirstWordOrDefault();
+            throw new UnexpectedTokenException(index, token);
         }
                 
         private KeyValuePair<string, string>? ParseToken(string args, out string match) 
@@ -66,7 +65,7 @@ namespace Nut.CommandLineParser.Specialized
                     return new KeyValuePair<string, string>(key, value);
                 }
             }
-
+            
             return null;
         }
 
@@ -79,10 +78,16 @@ namespace Nut.CommandLineParser.Specialized
             var regex = new Regex(pattern);
             var regexMatch = regex.Match(args);
             
+            if (!regexMatch.Success)
+                return false;
+
             if (regexMatch == null)
                 return false;
 
             if (regexMatch.Groups == null)
+                return false;
+                
+            if (regexMatch.Groups.Count == 0)
                 return false;
 
             if (regexMatch.Groups.Count > 0)
