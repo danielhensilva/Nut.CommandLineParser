@@ -4,14 +4,18 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Nut.CommandLineParser.Specialized;
 
-[assembly:InternalsVisibleTo("Nut.CommandLineParser.Test")]
 namespace Nut.CommandLineParser 
 {
-    public static class Parser
+    public class Parser : IParser
     {
-        public static KeyValuePair<string, string>[] ParseToKeyValuePairs(string args) 
+        public KeyValuePair<string, string>[] ParseToKeyValuePairs(string args) 
         {
             return new KeyValuePairParser().Parse(args);
+        }
+
+        public TValue ParseToObject<TValue>(string args) 
+        {
+            return default(TValue);
         }
     }
 }

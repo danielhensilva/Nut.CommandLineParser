@@ -8,7 +8,7 @@ namespace Nut.CommandLineParser
 {
     public interface IParser
     {
-        KeyValuePair<string, string> ParseToKeyValuePair(string args);
+        KeyValuePair<string, string>[] ParseToKeyValuePairs(string args);
         
         TValue ParseToObject<TValue>(string args);
     }
