@@ -52,10 +52,14 @@ namespace Nut.CommandLineParser.Specialized
 
             string[] patterns = 
             {
-                @"^\s*--(\w+?) +(\w+?)\b",
-                @"^\s*-(\w{1}) +(\w+?)\b",
+                @"^\s*--(\w+?)\s+""(.+?)""",
+                @"^\s*-(\w{1})\s+""(.+?)""",
+                @"^\s*\b(\w+?)=""(.+?)""",
+                @"^\s*""(.+?)""",
+                @"^\s*--(\w+?)\s+(\w+?)\b",
+                @"^\s*-(\w{1})\s+(\w+?)\b",
                 @"^\s*\b(\w+?)=(\w+?)\b",
-                @"^\s*\b(\w+)\b"
+                @"^\s*\b(\w+)\b",
             };
 
             foreach (var pattern in patterns)
