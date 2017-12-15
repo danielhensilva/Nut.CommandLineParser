@@ -13,8 +13,15 @@ namespace Nut.CommandLineParser.Attributes
             if (name == null)
                 throw new ArgumentNullException(nameof(name));
 
-            if (name.IsEmptyOrWhitespace())
+            name = name.Trim();
+
+            if (name.Length == 0)
                 throw new ArgumentException("Value cannot be empty.", nameof(name));
+
+            if (name.Length == 1)
+                throw new ArgumentException(
+                    $"Value cannot be one char length. Consider using {nameof(OptionAliasAttribute)} class instead.",
+                    nameof(name));
 
             this.Name = name;
         }

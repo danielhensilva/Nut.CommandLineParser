@@ -20,7 +20,7 @@ namespace Nut.CommandLineParser.Attributes.Test
         }
 
         [Fact]
-        public void ShouldThrowExceptionIfNameIsNull() 
+        public void ConstructorShouldThrowExceptionIfNameIsNull() 
         {
             var exception = Assert.Throws<ArgumentNullException>(() =>
                 new OptionNameAttribute(null)
@@ -33,13 +33,35 @@ namespace Nut.CommandLineParser.Attributes.Test
         [InlineData("")]
         [InlineData(" ")]
         [InlineData("  ")]
-        public void ShouldThrowExceptionIfNameIsEmptyOrWhitespace(string name) 
+        public void ConstructorShouldThrowExceptionIfNameIsEmptyOrWhitespace(string name) 
         {
             var exception = Assert.Throws<ArgumentException>(() =>
                 new OptionNameAttribute(name)
             );
             exception.ParamName.Should().Be("name");
             exception.Message.Should().Be("Value cannot be empty.\r\nParameter name: name");
+        }
+
+        [Theory]
+        [InlineData("a")]
+        [InlineData("x")]
+        [InlineData("y")]
+        public void ConstructorShouldThrowExceptionIfNameIsOneCharLength(string name) 
+        {
+            var exception = Assert.Throws<ArgumentException>(() =>
+                new OptionNameAttribute(name)
+            );
+            exception.ParamName.Should().Be("name");
+            exception.Message.Should().Be("Value cannot be one char length. Consider using OptionAliasAttribute class instead.\r\nParameter name: name");
+        }
+
+        [Theory]
+        [InlineData("this")]
+        [InlineData("something")]
+        public void ConstructorShouldSetNameProperly(string name) 
+        {
+            var attribute = new OptionNameAttribute(name);
+            attribute.Name.Should().Be(name);
         }
     }
 }
