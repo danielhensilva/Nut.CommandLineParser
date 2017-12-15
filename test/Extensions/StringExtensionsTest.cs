@@ -1,7 +1,7 @@
 using System;
 using FluentAssertions;
-using Xunit;
 using Nut.CommandLineParser.Extensions;
+using Xunit;
 
 namespace Nut.CommandLineParser.Extensions.Test
 {
