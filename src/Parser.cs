@@ -13,9 +13,9 @@ namespace Nut.CommandLineParser
             return new KeyValuePairParser().Parse(args);
         }
 
-        public TValue ParseToObject<TValue>(string args) 
+        public TElement ParseToObject<TElement>(string args) where TElement : new()
         {
-            return default(TValue);
+            return new ObjectParser<TElement>().Parse(args);
         }
     }
 }

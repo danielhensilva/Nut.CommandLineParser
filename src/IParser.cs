@@ -10,6 +10,6 @@ namespace Nut.CommandLineParser
     {
         KeyValuePair<string, string>[] ParseToKeyValuePairs(string args);
         
-        TValue ParseToObject<TValue>(string args);
+        TElement ParseToObject<TElement>(string args) where TElement : new();
     }
 }
