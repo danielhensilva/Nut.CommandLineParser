@@ -9,7 +9,7 @@ using Nut.CommandLineParser.Extensions;
 
 namespace Nut.CommandLineParser.Specialized
 {
-    public class KeyValuePairParser : ISpecializedParser<KeyValuePair<string, string>[]>
+    internal class KeyValuePairParser : ISpecializedParser<KeyValuePair<string, string>[]>
     {
         public KeyValuePair<string, string>[] Parse(string args) 
         {

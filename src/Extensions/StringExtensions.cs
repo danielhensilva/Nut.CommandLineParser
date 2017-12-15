@@ -2,9 +2,9 @@ using System;
 
 namespace Nut.CommandLineParser.Extensions 
 {
-    public static class StringExtensions 
+    internal static class StringExtensions 
     {
-        public static bool IsEmptyOrWhitespace(this string value) 
+        internal static bool IsEmptyOrWhitespace(this string value) 
         {
             if (value == null)
                 return false;
@@ -15,7 +15,7 @@ namespace Nut.CommandLineParser.Extensions
             return true;
         }
 
-        public static string RemoveAll(this string target, string value)
+        internal static string RemoveAll(this string target, string value)
         {
             if (string.IsNullOrEmpty(target))
                 return target;
@@ -26,7 +26,7 @@ namespace Nut.CommandLineParser.Extensions
             return target.Replace(value, string.Empty);
         }
 
-        public static string RemoveFirstOccurrence(this string target, string value) 
+        internal static string RemoveFirstOccurrence(this string target, string value) 
         {
             if (string.IsNullOrEmpty(target))
                 return target;
@@ -40,7 +40,7 @@ namespace Nut.CommandLineParser.Extensions
             return target.Remove(index, count);
         }
 
-        public static string RemoveLastOccurrence(this string target, string value)
+        internal static string RemoveLastOccurrence(this string target, string value)
         {
             if (string.IsNullOrEmpty(target))
                 return target;
@@ -54,7 +54,7 @@ namespace Nut.CommandLineParser.Extensions
             return target.Remove(index, count);
         }
 
-        public static string FirstWordOrDefault(this string target) 
+        internal static string FirstWordOrDefault(this string target) 
         {
             if (string.IsNullOrWhiteSpace(target))
                 return null;
