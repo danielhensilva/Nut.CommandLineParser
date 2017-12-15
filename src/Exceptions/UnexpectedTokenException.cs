@@ -5,9 +5,9 @@ namespace Nut.CommandLineParser.Exceptions
 {
     public class UnexpectedTokenException : Exception
     {
-        public int Index { get; set; }
+        public int Index { get; }
 
-        public string Token { get; set; }
+        public string Token { get; }
 
         public UnexpectedTokenException(int index, string token)
             : this(index, token, UnexpectedTokenException.GenerateMessage(index, token))
