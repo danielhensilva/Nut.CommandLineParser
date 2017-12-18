@@ -4,9 +4,11 @@ using Nut.CommandLineParser.Extensions;
 namespace Nut.CommandLineParser.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple=true, Inherited=false)]
-    public class OptionNameAttribute : Attribute
+    public class OptionNameAttribute : Attribute, IOptionAttribute
     {
         public string Name { get; }
+
+        public string GetValue() => this.Name.ToString();
 
         public OptionNameAttribute(string name)
         {
