@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Nut.CommandLineParser.Models
 {
-    public class PropertyOptionPair
+    internal class PropertyOptionPair
     {
         public PropertyInfo Property { get; set; }
 

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using Nut.CommandLineParser.Attributes;
 using Nut.CommandLineParser.Exceptions;
+using Nut.CommandLineParser.Models;
 
 namespace Nut.CommandLineParser.Specialized
 {
@@ -14,46 +15,39 @@ namespace Nut.CommandLineParser.Specialized
         public TElement Parse(string args) 
         {
             var element = new TElement();
-            var rawParser = new KeyValuePairParser();
-            var keyValuePairs = rawParser.Parse(args);
 
-            if (keyValuePairs.Count == 0)
+            var pairs = new KeyValuePairParser().Parse(args);
+            if (pairs.Count == 0)
                 return element;
 
-            var propertyOptionPairs = ReadOptionsFromAttributes();
+            var properties = this.GetPropertyOptionPairs();
             
-            foreach (var keyValue in keyValuePairs)
+            foreach (var pair in pairs)
             {
-                bool bound = false;
-
-                foreach (var propertyOption in propertyOptionPairs)
+                if (properties.TryFindByOption(pair.Key, out PropertyInfo property))
                 {
-                    if (propertyOption.Value.Equals(keyValue.Key, StringComparison.Ordinal))
-                    {
-                        propertyOption.Key.SetValue(element, keyValue.Value);
-                        bound = true;
-                        break;
-                    }
+                    property.SetValue(element, pair.Value);
+                    continue;
                 }
-
-                if (!bound)
-                    throw new UnboundTokenException(keyValue.Key);
+                
+                throw new UnboundTokenException(pair.Key);
             }
 
             return element;
         }
 
-        private static KeyValuePair<PropertyInfo, string>[] ReadOptionsFromAttributes()
+        private PropertyOptionPairs GetPropertyOptionPairs()
         {
             var query =
-                from propertyInfo in typeof(TElement).GetProperties()
-                from propertyAttribute in propertyInfo.GetCustomAttributes()
+                from property in typeof(TElement).GetProperties()
+                from propertyAttribute in property.GetCustomAttributes()
                 where typeof(IOptionAttribute).IsAssignableFrom(propertyAttribute.GetType())
                 let optionAttribute = propertyAttribute as IOptionAttribute
-                let propertyOption = optionAttribute.GetValue()
-                select new KeyValuePair<PropertyInfo, string>(propertyInfo, propertyOption);
+                let option = optionAttribute.GetValue()
+                select new PropertyOptionPair(property, option);
 
-            return query.ToArray();
+            var collection = new PropertyOptionPairs(query);
+            return collection;
         }
     }
 }
