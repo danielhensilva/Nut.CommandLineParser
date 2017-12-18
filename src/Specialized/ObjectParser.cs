@@ -14,23 +14,25 @@ namespace Nut.CommandLineParser.Specialized
     {
         public TElement Parse(string args) 
         {
-            var element = new TElement();
-
             var pairs = new KeyValuePairParser().Parse(args);
             if (pairs.Count == 0)
-                return element;
+                return new TElement();
 
             var properties = this.GetPropertyOptionPairs();
-            
+            var element = this.CreateElement(pairs, properties);
+            return element;
+        }
+
+        private TElement CreateElement(ArgKeyValuePairs pairs, PropertyOptionPairs properties) 
+        {
+            var element = new TElement();
+
             foreach (var pair in pairs)
             {
-                if (properties.TryFindByOption(pair.Key, out PropertyInfo property))
-                {
-                    property.SetValue(element, pair.Value);
-                    continue;
-                }
-                
-                throw new UnboundTokenException(pair.Key);
+                if (!properties.TryFindByOption(pair.Key, out PropertyInfo property))
+                    throw new UnboundTokenException(pair.Key);
+
+                property.SetValue(element, pair.Value);
             }
 
             return element;
