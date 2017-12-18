@@ -25,7 +25,7 @@ namespace Nut.CommandLineParser.Specialized.Test
         {
             var collection = new KeyValuePairParser().Parse(args);
             collection.Should().NotBeNull();
-            collection.Length.Should().Be(0);
+            collection.Count.Should().Be(0);
         }
 
         [Theory]
@@ -54,7 +54,7 @@ namespace Nut.CommandLineParser.Specialized.Test
         {
             var collection = new KeyValuePairParser().Parse(args);
             collection.Should().NotBeNull();
-            collection.Length.Should().Be(1);
+            collection.Count.Should().Be(1);
             collection[0].Key.Should().Be(expectedKey);
             collection[0].Value.Should().Be(expectedValue);
         }
@@ -70,7 +70,7 @@ namespace Nut.CommandLineParser.Specialized.Test
         {
             var collection = new KeyValuePairParser().Parse(args);
             collection.Should().NotBeNull();
-            collection.Length.Should().Be(1);
+            collection.Count.Should().Be(1);
             collection[0].Key.Should().Be(expectedKey);
             collection[0].Value.Should().Be(expectedValue);
         }
@@ -86,7 +86,7 @@ namespace Nut.CommandLineParser.Specialized.Test
         {
             var collection = new KeyValuePairParser().Parse(args);
             collection.Should().NotBeNull();
-            collection.Length.Should().Be(1);
+            collection.Count.Should().Be(1);
             collection[0].Key.Should().Be(expectedKey);
             collection[0].Value.Should().Be(expectedValue);
         }
@@ -105,9 +105,9 @@ namespace Nut.CommandLineParser.Specialized.Test
         {
             var collection = new KeyValuePairParser().Parse(args);
             collection.Should().NotBeNull();
-            collection.Length.Should().Be(expectedLength);
+            collection.Count.Should().Be(expectedLength);
 
-            for (int i = 0; i < collection.Length; i++) 
+            for (int i = 0; i < collection.Count; i++) 
             {
                 collection[i].Key.Should().Be(expectedKeys[i]);
                 collection[i].Value.Should().Be(expectedValues[i]);
@@ -131,9 +131,9 @@ namespace Nut.CommandLineParser.Specialized.Test
         {
             var collection = new KeyValuePairParser().Parse(args);
             collection.Should().NotBeNull();
-            collection.Length.Should().Be(expectedLength);
+            collection.Count.Should().Be(expectedLength);
 
-            for (int i = 0; i < collection.Length; i++) 
+            for (int i = 0; i < collection.Count; i++) 
             {
                 collection[i].Key.Should().Be(expectedKeys[i]);
                 collection[i].Value.Should().Be(expectedValues[i]);
@@ -157,9 +157,9 @@ namespace Nut.CommandLineParser.Specialized.Test
         {
             var collection = new KeyValuePairParser().Parse(args);
             collection.Should().NotBeNull();
-            collection.Length.Should().Be(expectedLength);
+            collection.Count.Should().Be(expectedLength);
 
-            for (int i = 0; i < collection.Length; i++) 
+            for (int i = 0; i < collection.Count; i++) 
             {
                 collection[i].Key.Should().Be(expectedKeys[i]);
                 collection[i].Value.Should().Be(expectedValues[i]);
@@ -180,9 +180,9 @@ namespace Nut.CommandLineParser.Specialized.Test
         {
             var collection = new KeyValuePairParser().Parse(args);
             collection.Should().NotBeNull();
-            collection.Length.Should().Be(expectedLength);
+            collection.Count.Should().Be(expectedLength);
 
-            for (int i = 0; i < collection.Length; i++) 
+            for (int i = 0; i < collection.Count; i++) 
             {
                 collection[i].Key.Should().Be(expectedKeys[i]);
                 collection[i].Value.Should().Be(expectedValues[i]);

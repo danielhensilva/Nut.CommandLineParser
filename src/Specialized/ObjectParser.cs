@@ -13,16 +13,15 @@ namespace Nut.CommandLineParser.Specialized
     {
         public TElement Parse(string args) 
         {
+            var element = new TElement();
             var rawParser = new KeyValuePairParser();
             var keyValuePairs = rawParser.Parse(args);
 
-            if (keyValuePairs.Length == 0)
-                return new TElement();
-            
+            if (keyValuePairs.Count == 0)
+                return element;
+
             var propertyOptionPairs = ReadOptionsFromAttributes();
-
-            var element = new TElement();
-
+            
             foreach (var keyValue in keyValuePairs)
             {
                 bool bound = false;

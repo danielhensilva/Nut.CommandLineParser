@@ -47,6 +47,24 @@ namespace Nut.CommandLineParser.Specialized.Test
             public string Item2 { get; set; }
         }
 
+        public class CollisionOfOptionNameAttributeClass
+        {
+            [OptionName("foo")]
+            public string Item1 { get; set; }
+            
+            [OptionName("foo")]
+            public string Item2 { get; set; }
+        }
+
+        public class CollisionOfOptionAliasAttributeClass
+        {
+            [OptionAlias('x')]
+            public string Item1 { get; set; }
+
+            [OptionAlias('x')]
+            public string Item2 { get; set; }
+        }
+
         [Fact]
         public void ParseMethodShouldThrowExceptionForNullArgs() 
         {

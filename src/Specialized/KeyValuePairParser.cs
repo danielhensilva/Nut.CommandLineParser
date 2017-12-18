@@ -4,25 +4,28 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Nut.CommandLineParser;
+using Nut.CommandLineParser.Models;
 using Nut.CommandLineParser.Exceptions;
 using Nut.CommandLineParser.Extensions;
 
 namespace Nut.CommandLineParser.Specialized
 {
-    internal class KeyValuePairParser : ISpecializedParser<KeyValuePair<string, string>[]>
+    internal class KeyValuePairParser : ISpecializedParser<ArgKeyValuePairs>
     {
-        public KeyValuePair<string, string>[] Parse(string args) 
+        public ArgKeyValuePairs Parse(string args) 
         {
             if (args == null) 
                 throw new ArgumentNullException(nameof(args));
 
             if (args.IsEmptyOrWhitespace())
-                return new KeyValuePair<string, string>[0];
+                return new ArgKeyValuePairs();
 
-            return this.ParseTokens(args).ToArray();
+            var parsedTokens = this.ParseTokens(args);
+            var collection = new ArgKeyValuePairs(parsedTokens);
+            return collection;
         }
 
-        private IEnumerable<KeyValuePair<string, string>> ParseTokens(string args) 
+        private IEnumerable<ArgKeyValuePair> ParseTokens(string args) 
         {
             var currentArgs = args;
 
@@ -36,7 +39,7 @@ namespace Nut.CommandLineParser.Specialized
                     break;
                 
                 currentArgs = currentArgs.Remove(0, match.Length);
-                yield return keyValue.Value;
+                yield return keyValue;
             }
 
             currentArgs = currentArgs.Trim();
@@ -46,7 +49,7 @@ namespace Nut.CommandLineParser.Specialized
             throw new UnexpectedTokenException(index, token);
         }
                 
-        private KeyValuePair<string, string>? ParseToken(string args, out string match) 
+        private ArgKeyValuePair ParseToken(string args, out string match) 
         {
             match = null;
 
@@ -66,7 +69,7 @@ namespace Nut.CommandLineParser.Specialized
             {
                 if (this.MatchNext(args, pattern, out match, out string key, out string value)) 
                 {
-                    return new KeyValuePair<string, string>(key, value);
+                    return new ArgKeyValuePair(key, value);
                 }
             }
             
