@@ -21,7 +21,7 @@ namespace Nut.CommandLineParser.Models.Test
 
         [Theory]
         [InlineData("key", "value")]
-        [InlineData("alpha", "beta")]
+        [InlineData("alpha", "bravo")]
         public void PropertiesShouldHaveGettersAndSetters(string key, string value) 
         {
             var pair = new ArgKeyValuePair(key, value);

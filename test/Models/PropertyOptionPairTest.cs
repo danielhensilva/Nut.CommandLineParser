@@ -22,7 +22,7 @@ namespace Nut.CommandLineParser.Models.Test
 
         [Theory]
         [InlineData("option")]
-        [InlineData("alphabeta")]
+        [InlineData("alphabravo")]
         public void PropertiesShouldHaveGettersAndSetters(string option) 
         {
             var property = typeof(PropertyOptionPair).GetProperty("Option");
