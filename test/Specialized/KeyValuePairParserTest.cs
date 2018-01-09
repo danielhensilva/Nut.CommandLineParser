@@ -31,7 +31,7 @@ namespace Nut.CommandLineParser.Specialized.Test
         [Theory]
         [InlineData("=", "=", 0)]
         [InlineData("--", "--", 0)]
-        [InlineData("alpha=beta=gama", "=gama", 10)]
+        [InlineData("alpha=bravo=charlie", "=charlie", 11)]
         [InlineData("--missingValue", "--missingValue", 0)]
         [InlineData("this=that -any -thing", "-any", 10)]
         public void ParseMethodShouldThrowErrorForInvalidSingleKeyValueParameter(string invalidArgs, string expectedToken, int expectedIndex)
@@ -46,7 +46,7 @@ namespace Nut.CommandLineParser.Specialized.Test
         [Theory]
         [InlineData("foo=bar", "foo", "bar")]
         [InlineData("key=value", "key", "value")]
-        [InlineData("alpha=beta", "alpha", "beta")]
+        [InlineData("alpha=bravo", "alpha", "bravo")]
         [InlineData("element=\"single\"", "element", "single")]
         [InlineData("this=\"multi text\"", "this", "multi text")]
         [InlineData("anotherKey=\"very long 4 multi text\"", "anotherKey", "very long 4 multi text")]
@@ -61,7 +61,7 @@ namespace Nut.CommandLineParser.Specialized.Test
 
         [Theory]
         [InlineData("-f bar", "f", "bar")]
-        [InlineData("-a beta", "a", "beta")]
+        [InlineData("-a bravo", "a", "bravo")]
         [InlineData("-k value", "k", "value")]
         [InlineData("-e \"single\"", "e", "single")]
         [InlineData("-x \"multi text\"", "x", "multi text")]
@@ -78,7 +78,7 @@ namespace Nut.CommandLineParser.Specialized.Test
         [Theory]
         [InlineData("--foo bar", "foo", "bar")]
         [InlineData("--key value", "key", "value")]
-        [InlineData("--alpha beta", "alpha", "beta")]
+        [InlineData("--alpha bravo", "alpha", "bravo")]
         [InlineData("--element \"single\"", "element", "single")]
         [InlineData("--this \"multi text\"", "this", "multi text")]
         [InlineData("--anotherKey \"very long 4 multi text\"", "anotherKey", "very long 4 multi text")]
@@ -92,15 +92,15 @@ namespace Nut.CommandLineParser.Specialized.Test
         }
 
         [Theory]
-        [InlineData("foo=bar alpha=beta", 2, 
+        [InlineData("foo=bar alpha=bravo", 2, 
             new[] { "foo", "alpha" }, 
-            new[] { "bar", "beta" })]
-        [InlineData("alpha=beta gama=\"new value set\"", 2, 
-            new[] { "alpha", "gama" }, 
-            new[] { "beta", "new value set" })]
-        [InlineData("alpha=beta gama=delta foo=bar key=value", 4, 
-            new[] { "alpha", "gama", "foo", "key" }, 
-            new[] { "beta", "delta", "bar", "value" })]
+            new[] { "bar", "bravo" })]
+        [InlineData("alpha=bravo charlie=\"new value set\"", 2, 
+            new[] { "alpha", "charlie" }, 
+            new[] { "bravo", "new value set" })]
+        [InlineData("alpha=bravo charlie=delta foo=bar key=value", 4, 
+            new[] { "alpha", "charlie", "foo", "key" }, 
+            new[] { "bravo", "delta", "bar", "value" })]
         public void ParseMethodShouldParseDoubleKeyValueParameterWithEqualsSign(string args, int expectedLength, string[] expectedKeys, string[] expectedValues)
         {
             var collection = new KeyValuePairParser().Parse(args);
@@ -121,12 +121,12 @@ namespace Nut.CommandLineParser.Specialized.Test
         [InlineData("-x abc -o \"c:\\Projects\\\"", 2, 
             new[] { "x", "o" }, 
             new[] { "abc", "c:\\Projects\\" })]
-        [InlineData("-e echo -g gama -k value", 3, 
+        [InlineData("-e echo -g charlie -k value", 3, 
             new[] { "e", "g", "k" }, 
-            new[] { "echo", "gama", "value" })]
-        [InlineData("-a beta -f bar -k value -g delta -f echo", 5, 
+            new[] { "echo", "charlie", "value" })]
+        [InlineData("-a bravo -f bar -k value -g delta -f echo", 5, 
             new[] { "a", "f", "k", "g", "f" }, 
-            new[] { "beta", "bar", "value", "delta", "echo" })]
+            new[] { "bravo", "bar", "value", "delta", "echo" })]
         public void ParseMethodShouldParseMultipleKeyValueParameterWithSingleSlash(string args, int expectedLength, string[] expectedKeys, string[] expectedValues)
         {
             var collection = new KeyValuePairParser().Parse(args);
@@ -147,12 +147,12 @@ namespace Nut.CommandLineParser.Specialized.Test
         [InlineData("--foo \"bar bogus\" --key value", 2, 
             new[] { "foo", "key" }, 
             new[] { "bar bogus", "value" })]
-        [InlineData("--charlie echo --gama delta --this that", 3, 
-            new[] { "charlie", "gama", "this" },
+        [InlineData("--charlie echo --charlie delta --this that", 3, 
+            new[] { "charlie", "charlie", "this" },
             new[] { "echo", "delta", "that" })]
-        [InlineData("--alpha beta --foo bar --gama delta --key value", 4, 
-            new[] { "alpha", "foo", "gama", "key" }, 
-            new[] { "beta", "bar", "delta", "value" })]
+        [InlineData("--alpha bravo --foo bar --charlie delta --key value", 4, 
+            new[] { "alpha", "foo", "charlie", "key" }, 
+            new[] { "bravo", "bar", "delta", "value" })]
         public void ParseMethodShouldParseMultipleKeyValueParameterWithDoubleSlash(string args, int expectedLength, string[] expectedKeys, string[] expectedValues)
         {
             var collection = new KeyValuePairParser().Parse(args);

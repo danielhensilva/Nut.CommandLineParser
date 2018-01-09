@@ -7,13 +7,21 @@ namespace Nut.CommandLineParser.Models
 {
     public class ArgKeyValuePair
     {
-        public string Key { get; set; }
+        private string key;
+
+        public string Key
+        {
+            get => this.key;
+            set
+            { 
+                if (value == null)
+                    throw new ArgumentNullException(nameof(key));
+
+                this.key = value;
+            }
+        }
 
         public string Value { get; set; }
-
-        public ArgKeyValuePair()
-        {
-        }
 
         public ArgKeyValuePair(string key, string value)
         {

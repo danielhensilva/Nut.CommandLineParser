@@ -116,7 +116,7 @@ namespace Nut.CommandLineParser.Specialized.Test
         [Theory]
         [InlineData("k=this", "this")]
         [InlineData("k=that", "that")]
-        [InlineData("--k beta", "beta")]
+        [InlineData("--k bravo", "bravo")]
         [InlineData("--k alpha", "alpha")]
         public void ParseMethodShouldParseSingleOptionAliasAttributeClass(string args, string expectedValue) 
         {
@@ -128,7 +128,7 @@ namespace Nut.CommandLineParser.Specialized.Test
         }
         
         [Theory]
-        [InlineData("Key=alpha KEY=beta key=gama", "gama", "alpha", "beta")]
+        [InlineData("Key=alpha KEY=bravo key=gama", "gama", "alpha", "bravo")]
         [InlineData("key=value1 Key=value2 KEY=value3", "value1", "value2", "value3")]
         public void ParseMethodShouldParseMultipleOptionNameAttributeClass(string args, string expectedValue1, string expectedValue2, string expectedValue3) 
         {

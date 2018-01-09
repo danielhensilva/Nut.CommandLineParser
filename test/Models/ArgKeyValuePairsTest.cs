@@ -1,4 +1,7 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
 using Xunit;
 
@@ -6,9 +9,6 @@ namespace Nut.CommandLineParser.Models.Test
 {
     public class ArgKeyValuePairsTest
     {
-<<<<<<< Updated upstream
-        
-=======
         [Fact]
         public void ParameterlessConstructorShouldInitializeEmptyCollection()
         {
@@ -38,6 +38,5 @@ namespace Nut.CommandLineParser.Models.Test
                 pair.Should().BeSameAs(collection[i]);
             }
         }
->>>>>>> Stashed changes
     }
 }
