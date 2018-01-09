@@ -1,4 +1,8 @@
 using System;
+using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
 using FluentAssertions;
 using Xunit;
 
@@ -6,6 +10,80 @@ namespace Nut.CommandLineParser.Models.Test
 {
     public class PropertyOptionPairsTest
     {
-        
+        [Fact]
+        public void ParameterlessConstructorShouldInitializeEmptyCollection()
+        {
+            var pairs = new PropertyOptionPairs();
+            pairs.Count.Should().Be(0);
+            pairs.Any().Should().BeFalse();
+        }
+
+        [Theory]
+        [InlineData("one")]
+        [InlineData("alpha", "bravo", "charlie")]
+        public void CollectionConstructorShouldInitializeWithGivenCollection(params string[] options)
+        {
+            var propertyName = nameof(PropertyOptionPair.Option);
+            var property = typeof(PropertyOptionPair).GetProperty(propertyName);
+            var collection = new List<PropertyOptionPair>();
+
+            foreach (var option in options)
+                collection.Add(new PropertyOptionPair(property, option));
+
+            var pairs = new PropertyOptionPairs(collection);
+            pairs.Count.Should().Be(collection.Count);
+            pairs.Any().Should().BeTrue();
+            
+            for (var i = 0; i < pairs.Count; i++)
+            {
+                var pair = pairs[i];
+                pair.Option.Should().Be(options[i]);
+                pair.Property.Should().BeSameAs(property);
+                pair.Should().BeSameAs(collection[i]);
+            }
+        }
+
+        [Theory]
+        [InlineData(new string[0], "a")]
+        [InlineData(new[] { "one" }, "any")]
+        [InlineData(new[] { "alpha", "bravo", "charlie" }, "ALPHA")]
+        public void MethodTryFindByOptionShouldReturnFalseAndOutputNullWhenKeyIsNotFound(string[] options, string searchTerm)
+        {
+            var propertyName = nameof(PropertyOptionPair.Option);
+            var property = typeof(PropertyOptionPair).GetProperty(propertyName);
+            var collection = new List<PropertyOptionPair>();
+
+            foreach (var option in options)
+                collection.Add(new PropertyOptionPair(property, option));
+
+            var pairs = new PropertyOptionPairs(collection);
+            pairs.Count.Should().Be(collection.Count);
+            pairs.Any().Should().BeTrue();
+            
+            var found = pairs.TryFindByOption(searchTerm, out var output);
+            found.Should().BeFalse();
+            output.Should().BeNull();
+        }  
+
+        [Theory]
+        [InlineData(new[] { "two" }, "two")]
+        [InlineData(new[] { "alpha", "bravo", "charlie" }, "bravo")]
+        public void MethodTryFindByOptionShouldReturnTrueAndOutputValidWhenKeyIsFound(string[] options, string searchTerm)
+        {
+            var propertyName = nameof(PropertyOptionPair.Option);
+            var property = typeof(PropertyOptionPair).GetProperty(propertyName);
+            var collection = new List<PropertyOptionPair>();
+
+            foreach (var option in options)
+                collection.Add(new PropertyOptionPair(property, option));
+
+            var pairs = new PropertyOptionPairs(collection);
+            pairs.Count.Should().Be(collection.Count);
+            pairs.Any().Should().BeTrue();
+            
+            var found = pairs.TryFindByOption(searchTerm, out var output);
+            found.Should().BeTrue();
+            output.Should().BeSameAs(property);
+        }  
     }
 }
