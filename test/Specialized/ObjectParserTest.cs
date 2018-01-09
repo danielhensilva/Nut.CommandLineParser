@@ -65,6 +65,86 @@ namespace Nut.CommandLineParser.Specialized.Test
             public string Item2 { get; set; }
         }
 
+/* Primitive */
+// bool     System.Boolean
+// char 	System.Char
+
+/* Integers */
+// byte 	System.Byte
+// sbyte 	System.SByte
+// int 	    System.Int32
+// uint 	System.UInt32
+// long 	System.Int64
+// ulong 	System.UInt64
+// short 	System.Int16
+// ushort 	System.UInt16
+
+/* Decimals */
+// decimal 	System.Decimal
+// double 	System.Double
+// float 	System.Single
+
+        public class PrimitivePropertyForAttributeClass
+        {
+            [OptionAlias('a')]
+            [OptionName("bool")]
+            public bool ItemBool { get; set; }
+            
+            [OptionAlias('b')]
+            [OptionName("char")]
+            public char ItemChar { get; set; }
+        }
+
+        public class NumericPropertyForAttributeClass
+        {
+            [OptionAlias('a')]
+            [OptionName("byte")]
+            public byte ItemByte { get; set; }
+            
+            [OptionAlias('b')]
+            [OptionName("sbyte")]
+            public sbyte ItemSByte { get; set; }
+
+            [OptionAlias('c')]
+            [OptionName("int")]
+            public int ItemInt { get; set; }
+
+            [OptionAlias('d')]
+            [OptionName("uint")]
+            public uint ItemUInt { get; set; }
+            
+            [OptionAlias('e')]
+            [OptionName("long")]
+            public long ItemLong { get; set; }
+            
+            [OptionAlias('f')]
+            [OptionName("ulong")]
+            public ulong ItemULong { get; set; }
+            
+            [OptionAlias('g')]
+            [OptionName("short")]
+            public short ItemShort { get; set; }
+            
+            [OptionAlias('h')]
+            [OptionName("ushort")]
+            public ushort ItemUShort { get; set; }
+        }
+
+        public class DecimalPropertyForAttributeClass
+        {            
+            [OptionAlias('a')]
+            [OptionName("float")]
+            public float ItemFloat { get; set; }
+
+            [OptionAlias('b')]
+            [OptionName("double")]
+            public double ItemDouble { get; set; }
+            
+            [OptionAlias('c')]
+            [OptionName("decimal")]
+            public decimal ItemDecimal { get; set; }
+        }
+
         [Fact]
         public void ParseMethodShouldThrowExceptionForNullArgs() 
         {
@@ -152,6 +232,42 @@ namespace Nut.CommandLineParser.Specialized.Test
             parsed.Should().BeOfType<MultipleOptionAliasAttributeClass>();
             parsed.Item1.Should().Be(expectedValue1);
             parsed.Item2.Should().Be(expectedValue2);
+        }
+        
+        [Theory]
+        [InlineData("a=true b=w", true, 'w')]
+        [InlineData("b=x a=false", false, 'x')]
+        [InlineData("bool=False char=y", false, 'y')]
+        [InlineData("char=z bool=True", true, 'z')]
+        [InlineData("bool=1 char=q", true, 'q')]
+        [InlineData("char=p bool=0", false, 'p')]
+        public void ParseMethodShouldParsePrimitiveAttributes(string args, bool expectedBool, char expectedChar) 
+        {
+            var parser = new ObjectParser<PrimitivePropertyForAttributeClass>();
+            var parsed = parser.Parse(args);
+            parsed.Should().NotBeNull();
+            parsed.Should().BeOfType<PrimitivePropertyForAttributeClass>();
+            parsed.ItemBool.Should().Be(expectedBool);
+            parsed.ItemChar.Should().Be(expectedChar);
+        }
+        
+        [Theory]
+        [InlineData("a=1 b=2 c=3 d=4 e=5 f=6 g=7 h=8", 1, 2, 3, 4, 5, 6, 7, 8)]
+        [InlineData("byte=11 sbyte=22 int=33 uint=44 long=55 ulong=66 short=77 ushort=88", 11, 22, 33, 44, 55, 66, 77, 88)]
+        public void ParseMethodShouldParseNumericAttributes(string args, byte expectedByte, sbyte expectedSByte, int expectedInt, uint expectedUInt, long expectedLong, ulong expectedULong, short expectedShort, ushort expectedUShort) 
+        {
+            var parser = new ObjectParser<NumericPropertyForAttributeClass>();
+            var parsed = parser.Parse(args);
+            parsed.Should().NotBeNull();
+            parsed.Should().BeOfType<NumericPropertyForAttributeClass>();
+            parsed.ItemByte.Should().Be(expectedByte);
+            parsed.ItemSByte.Should().Be(expectedSByte);
+            parsed.ItemInt.Should().Be(expectedInt);
+            parsed.ItemUInt.Should().Be(expectedUInt);
+            parsed.ItemLong.Should().Be(expectedLong);
+            parsed.ItemULong.Should().Be(expectedULong);
+            parsed.ItemShort.Should().Be(expectedShort);
+            parsed.ItemUShort.Should().Be(expectedUShort);
         }
     }
 }
