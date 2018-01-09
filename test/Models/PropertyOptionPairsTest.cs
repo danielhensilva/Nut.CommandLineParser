@@ -44,9 +44,16 @@ namespace Nut.CommandLineParser.Models.Test
         }
 
         [Theory]
-        [InlineData(new string[0], "a")]
+        [InlineData(new string[0], "")]
+        [InlineData(new string[0], null)]
+        [InlineData(new string[0], "any")]
+        [InlineData(new[] { "" }, null)]
+        [InlineData(new[] { "" }, "any")]
+        [InlineData(new[] { "one" }, "")]
+        [InlineData(new[] { "one" }, null)]
         [InlineData(new[] { "one" }, "any")]
-        [InlineData(new[] { "alpha", "bravo", "charlie" }, "ALPHA")]
+        [InlineData(new[] { "falcon" }, "charlie")]
+        [InlineData(new[] { "alpha", "bravo", "charlie" }, "falcon")]
         public void MethodTryFindByOptionShouldReturnFalseAndOutputNullWhenKeyIsNotFound(string[] options, string searchTerm)
         {
             var propertyName = nameof(PropertyOptionPair.Option);
@@ -58,7 +65,6 @@ namespace Nut.CommandLineParser.Models.Test
 
             var pairs = new PropertyOptionPairs(collection);
             pairs.Count.Should().Be(collection.Count);
-            pairs.Any().Should().BeTrue();
             
             var found = pairs.TryFindByOption(searchTerm, out var output);
             found.Should().BeFalse();
@@ -67,7 +73,9 @@ namespace Nut.CommandLineParser.Models.Test
 
         [Theory]
         [InlineData(new[] { "two" }, "two")]
+        [InlineData(new[] { "alpha", "bravo", "charlie" }, "alpha")]
         [InlineData(new[] { "alpha", "bravo", "charlie" }, "bravo")]
+        [InlineData(new[] { "alpha", "bravo", "charlie" }, "charlie")]
         public void MethodTryFindByOptionShouldReturnTrueAndOutputValidWhenKeyIsFound(string[] options, string searchTerm)
         {
             var propertyName = nameof(PropertyOptionPair.Option);
