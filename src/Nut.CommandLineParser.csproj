@@ -8,7 +8,7 @@
     <PackageId>Nut.CommandLineParser</PackageId>
     <Title>Nut's Command Line Parser</Title>
     <Authors>Daniel H. da Silva</Authors>
-    <Description>Simple argument parser for command line application.</Description>
+    <Description>Simple arguments parser for command line applications.</Description>
     <RepositoryUrl>https://github.com/danielhensilva/Nut.CommandLineParser</RepositoryUrl>
   </PropertyGroup>
 
