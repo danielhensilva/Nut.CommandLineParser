@@ -65,25 +65,6 @@ namespace Nut.CommandLineParser.Specialized.Test
             public string Item2 { get; set; }
         }
 
-/* Primitive */
-// bool     System.Boolean
-// char 	System.Char
-
-/* Integers */
-// byte 	System.Byte
-// sbyte 	System.SByte
-// int 	    System.Int32
-// uint 	System.UInt32
-// long 	System.Int64
-// ulong 	System.UInt64
-// short 	System.Int16
-// ushort 	System.UInt16
-
-/* Decimals */
-// decimal 	System.Decimal
-// double 	System.Double
-// float 	System.Single
-
         public class PrimitivePropertyForAttributeClass
         {
             [OptionAlias('a')]
@@ -254,7 +235,16 @@ namespace Nut.CommandLineParser.Specialized.Test
         [Theory]
         [InlineData("a=1 b=2 c=3 d=4 e=5 f=6 g=7 h=8", 1, 2, 3, 4, 5, 6, 7, 8)]
         [InlineData("byte=11 sbyte=22 int=33 uint=44 long=55 ulong=66 short=77 ushort=88", 11, 22, 33, 44, 55, 66, 77, 88)]
-        public void ParseMethodShouldParseNumericAttributes(string args, byte expectedByte, sbyte expectedSByte, int expectedInt, uint expectedUInt, long expectedLong, ulong expectedULong, short expectedShort, ushort expectedUShort) 
+        public void ParseMethodShouldParseNumericAttributes(
+                string args, 
+                byte expectedByte, 
+                sbyte expectedSByte, 
+                int expectedInt, 
+                uint expectedUInt,
+                long expectedLong, 
+                ulong expectedULong, 
+                short expectedShort, 
+                ushort expectedUShort) 
         {
             var parser = new ObjectParser<NumericPropertyForAttributeClass>();
             var parsed = parser.Parse(args);
