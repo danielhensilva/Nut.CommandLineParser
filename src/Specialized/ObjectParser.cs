@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using Nut.CommandLineParser.Attributes;
+using Nut.CommandLineParser.Extensions;
 using Nut.CommandLineParser.Exceptions;
 using Nut.CommandLineParser.Models;
 
@@ -32,7 +33,8 @@ namespace Nut.CommandLineParser.Specialized
                 if (!properties.TryFindByOption(pair.Key, out PropertyInfo property))
                     throw new UnboundTokenException(pair.Key);
 
-                property.SetValue(element, pair.Value);
+                var parsedValue = pair.Value.Parse(property.PropertyType);
+                property.SetValue(element, parsedValue);
             }
 
             return element;

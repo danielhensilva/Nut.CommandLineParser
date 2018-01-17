@@ -68,5 +68,32 @@ namespace Nut.CommandLineParser.Extensions
 
             return words[0];
         }
+        
+        internal static object Parse(this string value, Type type)
+        {
+            if (type.Equals(typeof(string)))
+                return Convert.ChangeType(value, type);
+
+            else if (type.Equals(typeof(bool))) 
+            {
+                if (bool.TryParse(value, out var newBooleanValue))
+                    return newBooleanValue;
+
+                if (int.TryParse(value, out var newIntegerValue)) 
+                {
+                    if (newIntegerValue == 0)
+                        return false;
+
+                    if (newIntegerValue == 1)
+                        return true;
+                }
+            }
+
+            else if (type.IsPrimitive)
+                return Convert.ChangeType(value, type);
+
+            var errorMessage = $@"""{value}"" cannot be casted to type {type.FullName}";
+            throw new InvalidCastException(errorMessage);
+        }
     }    
 }
