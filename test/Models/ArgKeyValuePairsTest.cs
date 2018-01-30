@@ -1,11 +1,10 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
+using Nut.CommandLineParser.Models;
 using Xunit;
 
-namespace Nut.CommandLineParser.Models.Test
+namespace Nut.CommandLineParser.Test.Models
 {
     public class ArgKeyValuePairsTest
     {

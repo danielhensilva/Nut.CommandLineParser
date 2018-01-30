@@ -1,9 +1,6 @@
 using System;
-using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Nut.CommandLineParser;
 using Nut.CommandLineParser.Models;
 using Nut.CommandLineParser.Exceptions;
 using Nut.CommandLineParser.Extensions;
@@ -20,12 +17,12 @@ namespace Nut.CommandLineParser.Specialized
             if (args.IsEmptyOrWhitespace())
                 return new ArgKeyValuePairs();
 
-            var parsedTokens = this.ParseTokens(args);
+            var parsedTokens = ParseTokens(args);
             var collection = new ArgKeyValuePairs(parsedTokens);
             return collection;
         }
 
-        private IEnumerable<ArgKeyValuePair> ParseTokens(string args) 
+        private static IEnumerable<ArgKeyValuePair> ParseTokens(string args) 
         {
             var currentArgs = args;
 
@@ -34,7 +31,7 @@ namespace Nut.CommandLineParser.Specialized
                 if (currentArgs.IsEmptyOrWhitespace())
                     yield break;
 
-                var keyValue = this.ParseToken(currentArgs, out string match);
+                var keyValue = ParseToken(currentArgs, out var match);
                 if (keyValue == null) 
                     break;
                 
@@ -44,12 +41,12 @@ namespace Nut.CommandLineParser.Specialized
 
             currentArgs = currentArgs.Trim();
 
-            var index = args.IndexOf(currentArgs);
+            var index = args.IndexOf(currentArgs, StringComparison.Ordinal);
             var token = currentArgs.FirstWordOrDefault();
             throw new UnexpectedTokenException(index, token);
         }
                 
-        private ArgKeyValuePair ParseToken(string args, out string match) 
+        private static ArgKeyValuePair ParseToken(string args, out string match) 
         {
             match = null;
 
@@ -67,7 +64,7 @@ namespace Nut.CommandLineParser.Specialized
 
             foreach (var pattern in patterns)
             {
-                if (this.MatchNext(args, pattern, out match, out string key, out string value)) 
+                if (MatchNext(args, pattern, out match, out var key, out var value)) 
                 {
                     return new ArgKeyValuePair(key, value);
                 }
@@ -76,7 +73,7 @@ namespace Nut.CommandLineParser.Specialized
             return null;
         }
 
-        private bool MatchNext(string args, string pattern, out string match, out string key, out string value) 
+        private static bool MatchNext(string args, string pattern, out string match, out string key, out string value) 
         {
             key = null;
             value = null;
@@ -86,9 +83,6 @@ namespace Nut.CommandLineParser.Specialized
             var regexMatch = regex.Match(args);
             
             if (!regexMatch.Success)
-                return false;
-
-            if (regexMatch == null)
                 return false;
 
             if (regexMatch.Groups == null)

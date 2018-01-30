@@ -10,15 +10,15 @@ namespace Nut.CommandLineParser.Exceptions
         public string Token { get; }
 
         public UnexpectedTokenException(int index, string token)
-            : this(index, token, UnexpectedTokenException.GenerateMessage(index, token))
+            : this(index, token, GenerateMessage(index, token))
         {
         }
 
         private UnexpectedTokenException(int index, string token, string message)
             : base(message) 
         {
-            this.Index = index;
-            this.Token = token;
+            Index = index;
+            Token = token;
         }
 
         private static string GenerateMessage(int index, string token)

@@ -1,8 +1,9 @@
 using System;
 using FluentAssertions;
+using Nut.CommandLineParser.Models;
 using Xunit;
 
-namespace Nut.CommandLineParser.Models.Test
+namespace Nut.CommandLineParser.Test.Models
 {
     public class ArgKeyValuePairTest
     {

@@ -1,9 +1,10 @@
 using System;
 using FluentAssertions;
-using Xunit;
 using Nut.CommandLineParser.Exceptions;
+using Nut.CommandLineParser.Specialized;
+using Xunit;
 
-namespace Nut.CommandLineParser.Specialized.Test
+namespace Nut.CommandLineParser.Test.Specialized
 {
     public class KeyValuePairParserTest
     {

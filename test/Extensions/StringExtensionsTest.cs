@@ -1,9 +1,8 @@
-using System;
 using FluentAssertions;
 using Nut.CommandLineParser.Extensions;
 using Xunit;
 
-namespace Nut.CommandLineParser.Extensions.Test
+namespace Nut.CommandLineParser.Test.Extensions
 {
     public class StringExtensionsTest 
     {

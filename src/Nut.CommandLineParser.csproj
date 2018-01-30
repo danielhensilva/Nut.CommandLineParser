@@ -1,5 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <RuntimeFrameworkVersion>2.0.3</RuntimeFrameworkVersion>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -11,5 +10,4 @@
     <Description>Simple arguments parser for command line applications.</Description>
     <RepositoryUrl>https://github.com/danielhensilva/Nut.CommandLineParser</RepositoryUrl>
   </PropertyGroup>
-
 </Project>

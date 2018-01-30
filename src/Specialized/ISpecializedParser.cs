@@ -1,9 +1,6 @@
-using System;
-using System.Linq;
-
-namespace Nut.CommandLineParser 
+namespace Nut.CommandLineParser.Specialized 
 {
-    internal interface ISpecializedParser<TElement>
+    internal interface ISpecializedParser<out TElement>
     {
         TElement Parse(string args);
     }

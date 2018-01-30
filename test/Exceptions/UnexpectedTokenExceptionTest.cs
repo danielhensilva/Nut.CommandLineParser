@@ -3,7 +3,7 @@ using FluentAssertions;
 using Nut.CommandLineParser.Exceptions;
 using Xunit;
 
-namespace Nut.CommandLineParser.Exceptions.Test
+namespace Nut.CommandLineParser.Test.Exceptions
 { 
     public class UnexpectedTokenExceptionTest
     {

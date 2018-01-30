@@ -4,7 +4,7 @@ using FluentAssertions;
 using Nut.CommandLineParser.Attributes;
 using Xunit;
 
-namespace Nut.CommandLineParser.Attributes.Test
+namespace Nut.CommandLineParser.Test.Attributes
 {
     public class OptionNameAttributeTest
     {

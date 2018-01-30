@@ -1,32 +1,29 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
-using Xunit;
 using Nut.CommandLineParser.Attributes;
 using Nut.CommandLineParser.Exceptions;
 using Nut.CommandLineParser.Specialized;
+using Xunit;
 
-namespace Nut.CommandLineParser.Specialized.Test
+namespace Nut.CommandLineParser.Test.Specialized
 {
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
     public class ObjectParserTest
     {
-        public class NoOptionAttributeClass
-        {
-            public string Item { get; set; }
-        }
-
-        public class SingleOptionNameAttributeClass
+        private class SingleOptionNameAttributeClass
         {
             [OptionName("key")]
             public string Item { get; set; }
         }
 
-        public class SingleOptionAliasAttributeClass
+        private class SingleOptionAliasAttributeClass
         {
             [OptionAlias('k')]
             public string Item { get; set; }
         }
 
-        public class MultipleOptionNameAttributeClass 
+        private class MultipleOptionNameAttributeClass 
         {
             [OptionName("key")]
             public string Item1 { get; set; }
@@ -38,7 +35,7 @@ namespace Nut.CommandLineParser.Specialized.Test
             public string Item3 { get; set; }
         }
 
-        public class MultipleOptionAliasAttributeClass
+        private class MultipleOptionAliasAttributeClass
         {
             [OptionAlias('x')]
             public string Item1 { get; set; }
@@ -47,7 +44,7 @@ namespace Nut.CommandLineParser.Specialized.Test
             public string Item2 { get; set; }
         }
 
-        public class CollisionOfOptionNameAttributeClass
+        private class CollisionOfOptionNameAttributeClass
         {
             [OptionName("foo")]
             public string Item1 { get; set; }
@@ -56,7 +53,7 @@ namespace Nut.CommandLineParser.Specialized.Test
             public string Item2 { get; set; }
         }
 
-        public class CollisionOfOptionAliasAttributeClass
+        private class CollisionOfOptionAliasAttributeClass
         {
             [OptionAlias('x')]
             public string Item1 { get; set; }
@@ -65,7 +62,7 @@ namespace Nut.CommandLineParser.Specialized.Test
             public string Item2 { get; set; }
         }
 
-        public class PrimitivePropertyForAttributeClass
+        private class PrimitivePropertyForAttributeClass
         {
             [OptionAlias('a')]
             [OptionName("bool")]
@@ -76,7 +73,7 @@ namespace Nut.CommandLineParser.Specialized.Test
             public char ItemChar { get; set; }
         }
 
-        public class NumericPropertyForAttributeClass
+        private class NumericPropertyForAttributeClass
         {
             [OptionAlias('a')]
             [OptionName("byte")]
@@ -111,7 +108,7 @@ namespace Nut.CommandLineParser.Specialized.Test
             public ushort ItemUShort { get; set; }
         }
 
-        public class DecimalPropertyForAttributeClass
+        private class DecimalPropertyForAttributeClass
         {            
             [OptionAlias('a')]
             [OptionName("float")]
@@ -214,6 +211,24 @@ namespace Nut.CommandLineParser.Specialized.Test
             parsed.Item1.Should().Be(expectedValue1);
             parsed.Item2.Should().Be(expectedValue2);
         }
+
+        [Fact]
+        public void ParseMethodShouldThrowErrorWhenThereAreDuplicatedNameOptions()
+        {
+            var parser = new ObjectParser<CollisionOfOptionNameAttributeClass>();
+            var exception = Assert.Throws<DuplicatedOptionsException>(
+                () => parser.Parse(null));
+            exception.Duplications.Should().BeEquivalentTo(new[] {"foo"});
+        }
+
+        [Fact]
+        public void ParseMethodShouldThrowErrorWhenThereAreDuplicatedAliasOptions()
+        {
+            var parser = new ObjectParser<CollisionOfOptionAliasAttributeClass>();
+            var exception = Assert.Throws<DuplicatedOptionsException>(
+                () => parser.Parse(null));
+            exception.Duplications.Should().BeEquivalentTo(new[] {"x"});
+        }
         
         [Theory]
         [InlineData("a=true b=w", true, 'w')]
@@ -258,6 +273,24 @@ namespace Nut.CommandLineParser.Specialized.Test
             parsed.ItemULong.Should().Be(expectedULong);
             parsed.ItemShort.Should().Be(expectedShort);
             parsed.ItemUShort.Should().Be(expectedUShort);
+        }
+        
+//        [Theory]
+//        [InlineData("x=1.1 y=2.2 z=3.3", 1.1, 2.2, 3.3)]
+//        [InlineData("float=44.4 double=55.5 decimal=66.6", 44.4, 55.5, 66.6)]
+        public void ParseMethodShouldParseDecimalAttributes(
+            string args, 
+            float expectedFloat,
+            double expectedDouble,
+            decimal expectedDecimal) 
+        {
+            var parser = new ObjectParser<DecimalPropertyForAttributeClass>();
+            var parsed = parser.Parse(args);
+            parsed.Should().NotBeNull();
+            parsed.Should().BeOfType<DecimalPropertyForAttributeClass>();
+            parsed.ItemFloat.Should().Be(expectedFloat);
+            parsed.ItemDouble.Should().Be(expectedDouble);
+            parsed.ItemDecimal.Should().Be(expectedDecimal);
         }
     }
 }

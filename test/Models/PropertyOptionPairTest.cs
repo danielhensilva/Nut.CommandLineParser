@@ -1,23 +1,22 @@
 using System;
 using System.Reflection;
 using FluentAssertions;
+using Nut.CommandLineParser.Models;
 using Xunit;
 
-namespace Nut.CommandLineParser.Models.Test
+namespace Nut.CommandLineParser.Test.Models
 {
     public class PropertyOptionPairTest
     {
         [Fact]
         public void PropertyPropertyShouldThrowExceptionForNull() 
         {
-            PropertyInfo property = null;
-
             var exception = Assert.Throws<ArgumentNullException>(() => 
-                new PropertyOptionPair(property, "option")
+                new PropertyOptionPair(null, "option")
             );
 
-            exception.ParamName.Should().Be("property");
-            exception.Message.Should().Be("Value cannot be null.\r\nParameter name: property");
+            exception.ParamName.Should().Be(nameof(PropertyOptionPair.Property));
+            exception.Message.Should().Be("Value cannot be null.\r\nParameter name: Property");
         }
 
         [Theory]

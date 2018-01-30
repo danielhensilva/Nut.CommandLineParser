@@ -4,7 +4,7 @@ using FluentAssertions;
 using Nut.CommandLineParser.Attributes;
 using Xunit;
 
-namespace Nut.CommandLineParser.Attributes.Test
+namespace Nut.CommandLineParser.Test.Attributes
 {
     public class OptionAliasAttributeTest
     {
@@ -13,7 +13,7 @@ namespace Nut.CommandLineParser.Attributes.Test
         {
             var attribute = new OptionAliasAttribute('a');
             var customAttributes = attribute.GetType().GetCustomAttributes(false);
-            var customAttributeUsage = customAttributes.OfType<AttributeUsageAttribute>().First() as AttributeUsageAttribute;
+            var customAttributeUsage = customAttributes.OfType<AttributeUsageAttribute>().First();
             customAttributeUsage.ValidOn.Should().Be(AttributeTargets.Property);
             customAttributeUsage.Inherited.Should().BeFalse();
             customAttributeUsage.AllowMultiple.Should().BeTrue();
