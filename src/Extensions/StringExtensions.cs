@@ -34,7 +34,7 @@ namespace Nut.CommandLineParser.Extensions
             if (value == null)
                 return target;
 
-            var index = target.IndexOf(value);
+            var index = target.IndexOf(value, StringComparison.Ordinal);
             var count = value.Length;
 
             return target.Remove(index, count);
@@ -48,7 +48,7 @@ namespace Nut.CommandLineParser.Extensions
             if (value == null)
                 return target;
 
-            var index = target.LastIndexOf(value);
+            var index = target.LastIndexOf(value, StringComparison.Ordinal);
             var count = value.Length;
 
             return target.Remove(index, count);
@@ -71,9 +71,13 @@ namespace Nut.CommandLineParser.Extensions
 
         internal static object Parse(this string value, Type type)
         {
-            if (type.Equals(typeof(string))) return Convert.ChangeType(value, type);
+            if (type == typeof(string)) 
+                return Convert.ChangeType(value, type);
 
-            if (type.Equals(typeof(bool)))
+            if (type == typeof(decimal))
+                return decimal.Parse(value);
+            
+            if (type == typeof(bool))
             {
                 if (bool.TryParse(value, out var newBooleanValue))
                     return newBooleanValue;
@@ -87,7 +91,6 @@ namespace Nut.CommandLineParser.Extensions
                         return true;
                 }
             }
-
             else if (type.IsPrimitive)
             {
                 return Convert.ChangeType(value, type);

@@ -110,15 +110,15 @@ namespace Nut.CommandLineParser.Test.Specialized
 
         private class DecimalPropertyForAttributeClass
         {
-            [OptionAlias('a')]
+            [OptionAlias('f')]
             [OptionName("float")]
             public float ItemFloat { get; set; }
 
-            [OptionAlias('b')]
+            [OptionAlias('d')]
             [OptionName("double")]
             public double ItemDouble { get; set; }
 
-            [OptionAlias('c')]
+            [OptionAlias('m')]
             [OptionName("decimal")]
             public decimal ItemDecimal { get; set; }
         }
@@ -246,9 +246,9 @@ namespace Nut.CommandLineParser.Test.Specialized
             parsed.ItemUShort.Should().Be(expectedUShort);
         }
 
-//        [Theory]
-//        [InlineData("x=1.1 y=2.2 z=3.3", 1.1, 2.2, 3.3)]
-//        [InlineData("float=44.4 double=55.5 decimal=66.6", 44.4, 55.5, 66.6)]
+        [Theory]
+        [InlineData("f=1.1 d=2.2 m=3.3", 1.1, 2.2, 3.3)]
+        [InlineData("float=44.4 double=55.5 decimal=66.6", 44.4, 55.5, 66.6)]
         public void ParseMethodShouldParseDecimalAttributes(
             string args,
             float expectedFloat,
@@ -285,9 +285,8 @@ namespace Nut.CommandLineParser.Test.Specialized
         [Fact]
         public void ParseMethodShouldThrowExceptionForNullArgs()
         {
-            string args = null;
             var exception = Assert.Throws<ArgumentNullException>(() =>
-                new ObjectParser<object>().Parse(args)
+                new ObjectParser<object>().Parse(null)
             );
             exception.Message.Should().StartWith("Value cannot be null");
             exception.ParamName.Should().Be("args");

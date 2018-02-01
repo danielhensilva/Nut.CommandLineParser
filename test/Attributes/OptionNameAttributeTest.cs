@@ -60,7 +60,6 @@ namespace Nut.CommandLineParser.Test.Attributes
             var customAttributes = attribute.GetType().GetCustomAttributes(false);
             var customAttributeUsage = customAttributes.OfType<AttributeUsageAttribute>().First();
             customAttributeUsage.ValidOn.Should().Be(AttributeTargets.Property);
-            customAttributeUsage.Inherited.Should().BeFalse();
             customAttributeUsage.AllowMultiple.Should().BeTrue();
         }
     }
