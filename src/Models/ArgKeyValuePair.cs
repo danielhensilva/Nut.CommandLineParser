@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
 
 namespace Nut.CommandLineParser.Models
 {
@@ -9,24 +6,24 @@ namespace Nut.CommandLineParser.Models
     {
         private string key;
 
+        public ArgKeyValuePair(string key, string value)
+        {
+            Key = key;
+            Value = value;
+        }
+
         public string Key
         {
-            get => this.key;
+            get => key;
             set
-            { 
+            {
                 if (value == null)
                     throw new ArgumentNullException(nameof(key));
 
-                this.key = value;
+                key = value;
             }
         }
 
         public string Value { get; set; }
-
-        public ArgKeyValuePair(string key, string value)
-        {
-            this.Key = key;
-            this.Value = value;   
-        }
     }
 }

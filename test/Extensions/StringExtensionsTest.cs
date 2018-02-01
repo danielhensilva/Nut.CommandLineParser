@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Nut.CommandLineParser.Test.Extensions
 {
-    public class StringExtensionsTest 
+    public class StringExtensionsTest
     {
         [Theory]
         [InlineData(null, false)]
@@ -13,11 +13,11 @@ namespace Nut.CommandLineParser.Test.Extensions
         [InlineData("   ", true)]
         [InlineData(" ", true)]
         [InlineData("", true)]
-        public void IsWhitespaceMethod(string input, bool expectedOutput) 
+        public void IsWhitespaceMethod(string input, bool expectedOutput)
         {
             input.IsEmptyOrWhitespace().Should().Be(expectedOutput);
         }
-        
+
         [Theory]
         [InlineData(null, null, null)]
         [InlineData("", null, "")]
@@ -36,11 +36,11 @@ namespace Nut.CommandLineParser.Test.Extensions
         [InlineData("abcdef", "def", "abc")]
         [InlineData("alpha bravo charlie delta alpha bravo charlie delta", "bravo ", "alpha charlie delta alpha charlie delta")]
         [InlineData("alpha bravo charlie delta alpha bravo charlie delta", " charlie delta", "alpha bravo alpha bravo")]
-        public void RemoveAllMethod(string input, string param, string expectedOutput) 
+        public void RemoveAllMethod(string input, string param, string expectedOutput)
         {
             input.RemoveAll(param).Should().Be(expectedOutput);
         }
-        
+
         [Theory]
         [InlineData(null, null, null)]
         [InlineData("", null, "")]
@@ -59,11 +59,11 @@ namespace Nut.CommandLineParser.Test.Extensions
         [InlineData("abcdef", "def", "abc")]
         [InlineData("alpha bravo charlie delta alpha bravo charlie delta", "bravo ", "alpha charlie delta alpha bravo charlie delta")]
         [InlineData("alpha bravo charlie delta alpha bravo charlie delta", " charlie delta", "alpha bravo alpha bravo charlie delta")]
-        public void RemoveFirstOccurrenceMethod(string input, string param, string expectedOutput) 
+        public void RemoveFirstOccurrenceMethod(string input, string param, string expectedOutput)
         {
             input.RemoveFirstOccurrence(param).Should().Be(expectedOutput);
         }
-        
+
         [Theory]
         [InlineData(null, null, null)]
         [InlineData("", null, "")]
@@ -82,7 +82,7 @@ namespace Nut.CommandLineParser.Test.Extensions
         [InlineData("abcdef", "def", "abc")]
         [InlineData("alpha bravo charlie delta alpha bravo charlie delta", "bravo ", "alpha bravo charlie delta alpha charlie delta")]
         [InlineData("alpha bravo charlie delta alpha bravo charlie delta", " charlie delta", "alpha bravo charlie delta alpha bravo")]
-        public void RemoveLastOccurrenceMethod(string input, string param, string expectedOutput) 
+        public void RemoveLastOccurrenceMethod(string input, string param, string expectedOutput)
         {
             input.RemoveLastOccurrence(param).Should().Be(expectedOutput);
         }

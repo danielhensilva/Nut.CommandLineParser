@@ -1,5 +1,4 @@
 using System;
-using System.Reflection;
 using FluentAssertions;
 using Nut.CommandLineParser.Models;
 using Xunit;
@@ -8,21 +7,10 @@ namespace Nut.CommandLineParser.Test.Models
 {
     public class PropertyOptionPairTest
     {
-        [Fact]
-        public void PropertyPropertyShouldThrowExceptionForNull() 
-        {
-            var exception = Assert.Throws<ArgumentNullException>(() => 
-                new PropertyOptionPair(null, "option")
-            );
-
-            exception.ParamName.Should().Be(nameof(PropertyOptionPair.Property));
-            exception.Message.Should().Be("Value cannot be null.\r\nParameter name: Property");
-        }
-
         [Theory]
         [InlineData("option")]
         [InlineData("alphabravo")]
-        public void PropertiesShouldHaveGettersAndSetters(string option) 
+        public void PropertiesShouldHaveGettersAndSetters(string option)
         {
             var propertyName = nameof(PropertyOptionPair.Option);
             var property = typeof(PropertyOptionPair).GetProperty(propertyName);
@@ -38,6 +26,17 @@ namespace Nut.CommandLineParser.Test.Models
             var updatedOption = string.Concat(option, "updated");
             pair.Option = updatedOption;
             pair.Option.Should().Be(updatedOption);
+        }
+
+        [Fact]
+        public void PropertyPropertyShouldThrowExceptionForNull()
+        {
+            var exception = Assert.Throws<ArgumentNullException>(() =>
+                new PropertyOptionPair(null, "option")
+            );
+
+            exception.ParamName.Should().Be(nameof(PropertyOptionPair.Property));
+            exception.Message.Should().Be("Value cannot be null.\r\nParameter name: Property");
         }
     }
 }

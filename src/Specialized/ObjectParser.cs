@@ -1,8 +1,7 @@
-using System;
 using System.Linq;
 using System.Reflection;
-using Nut.CommandLineParser.Extensions;
 using Nut.CommandLineParser.Exceptions;
+using Nut.CommandLineParser.Extensions;
 using Nut.CommandLineParser.Models;
 
 namespace Nut.CommandLineParser.Specialized
@@ -12,7 +11,7 @@ namespace Nut.CommandLineParser.Specialized
         public TElement Parse(string args)
         {
             var properties = GetPropertyOptionPairs();
-            
+
             var pairs = new KeyValuePairParser().Parse(args);
             if (pairs.Count == 0)
                 return new TElement();
@@ -21,7 +20,7 @@ namespace Nut.CommandLineParser.Specialized
             return element;
         }
 
-        private static TElement CreateElement(ArgKeyValuePairs pairs, PropertyOptionPairs properties) 
+        private static TElement CreateElement(ArgKeyValuePairs pairs, PropertyOptionPairs properties)
         {
             var element = new TElement();
 
@@ -51,8 +50,8 @@ namespace Nut.CommandLineParser.Specialized
 
             var duplicated = collection.GetDuplicatedOptions();
             if (duplicated.Any())
-                throw new DuplicatedOptionsException(duplicated);            
-            
+                throw new DuplicatedOptionsException(duplicated);
+
             return collection;
         }
     }

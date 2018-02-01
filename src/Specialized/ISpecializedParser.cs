@@ -1,4 +1,4 @@
-namespace Nut.CommandLineParser.Specialized 
+namespace Nut.CommandLineParser.Specialized
 {
     internal interface ISpecializedParser<out TElement>
     {

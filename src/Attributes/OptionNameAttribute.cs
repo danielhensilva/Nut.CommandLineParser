@@ -1,15 +1,10 @@
 using System;
-using Nut.CommandLineParser.Extensions;
 
 namespace Nut.CommandLineParser.Attributes
 {
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple=true, Inherited=false)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
     public class OptionNameAttribute : Attribute, IOptionAttribute
     {
-        public string Name { get; }
-
-        public string GetValue() => this.Name.ToString();
-
         public OptionNameAttribute(string name)
         {
             if (name == null)
@@ -25,7 +20,14 @@ namespace Nut.CommandLineParser.Attributes
                     $"Value cannot be one char length. Consider using {nameof(OptionAliasAttribute)} class instead.",
                     nameof(name));
 
-            this.Name = name;
+            Name = name;
+        }
+
+        public string Name { get; }
+
+        public string GetValue()
+        {
+            return Name;
         }
     }
 }

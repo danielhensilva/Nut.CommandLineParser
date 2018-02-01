@@ -1,10 +1,10 @@
 using System;
 
-namespace Nut.CommandLineParser.Extensions 
+namespace Nut.CommandLineParser.Extensions
 {
-    internal static class StringExtensions 
+    internal static class StringExtensions
     {
-        internal static bool IsEmptyOrWhitespace(this string value) 
+        internal static bool IsEmptyOrWhitespace(this string value)
         {
             if (value == null)
                 return false;
@@ -26,7 +26,7 @@ namespace Nut.CommandLineParser.Extensions
             return target.Replace(value, string.Empty);
         }
 
-        internal static string RemoveFirstOccurrence(this string target, string value) 
+        internal static string RemoveFirstOccurrence(this string target, string value)
         {
             if (string.IsNullOrEmpty(target))
                 return target;
@@ -54,7 +54,7 @@ namespace Nut.CommandLineParser.Extensions
             return target.Remove(index, count);
         }
 
-        internal static string FirstWordOrDefault(this string target) 
+        internal static string FirstWordOrDefault(this string target)
         {
             if (string.IsNullOrWhiteSpace(target))
                 return null;
@@ -68,18 +68,17 @@ namespace Nut.CommandLineParser.Extensions
 
             return words[0];
         }
-        
+
         internal static object Parse(this string value, Type type)
         {
-            if (type.Equals(typeof(string)))
-                return Convert.ChangeType(value, type);
+            if (type.Equals(typeof(string))) return Convert.ChangeType(value, type);
 
-            else if (type.Equals(typeof(bool))) 
+            if (type.Equals(typeof(bool)))
             {
                 if (bool.TryParse(value, out var newBooleanValue))
                     return newBooleanValue;
 
-                if (int.TryParse(value, out var newIntegerValue)) 
+                if (int.TryParse(value, out var newIntegerValue))
                 {
                     if (newIntegerValue == 0)
                         return false;
@@ -90,10 +89,12 @@ namespace Nut.CommandLineParser.Extensions
             }
 
             else if (type.IsPrimitive)
+            {
                 return Convert.ChangeType(value, type);
+            }
 
             var errorMessage = $@"""{value}"" cannot be casted to type {type.FullName}";
             throw new InvalidCastException(errorMessage);
         }
-    }    
+    }
 }

@@ -8,14 +8,6 @@ namespace Nut.CommandLineParser.Test.Models
 {
     public class PropertyOptionPairsTest
     {
-        [Fact]
-        public void ParameterlessConstructorShouldInitializeEmptyCollection()
-        {
-            var pairs = new PropertyOptionPairs();
-            pairs.Count.Should().Be(0);
-            pairs.Any().Should().BeFalse();
-        }
-
         [Theory]
         [InlineData("one")]
         [InlineData("alpha", "bravo", "charlie")]
@@ -31,7 +23,7 @@ namespace Nut.CommandLineParser.Test.Models
             var pairs = new PropertyOptionPairs(collection);
             pairs.Count.Should().Be(collection.Count);
             pairs.Any().Should().BeTrue();
-            
+
             for (var i = 0; i < pairs.Count; i++)
             {
                 var pair = pairs[i];
@@ -45,13 +37,13 @@ namespace Nut.CommandLineParser.Test.Models
         [InlineData(new string[0], "")]
         [InlineData(new string[0], null)]
         [InlineData(new string[0], "any")]
-        [InlineData(new[] { "" }, null)]
-        [InlineData(new[] { "" }, "any")]
-        [InlineData(new[] { "one" }, "")]
-        [InlineData(new[] { "one" }, null)]
-        [InlineData(new[] { "one" }, "any")]
-        [InlineData(new[] { "falcon" }, "charlie")]
-        [InlineData(new[] { "alpha", "bravo", "charlie" }, "falcon")]
+        [InlineData(new[] {""}, null)]
+        [InlineData(new[] {""}, "any")]
+        [InlineData(new[] {"one"}, "")]
+        [InlineData(new[] {"one"}, null)]
+        [InlineData(new[] {"one"}, "any")]
+        [InlineData(new[] {"falcon"}, "charlie")]
+        [InlineData(new[] {"alpha", "bravo", "charlie"}, "falcon")]
         public void MethodTryFindByOptionShouldReturnFalseAndOutputNullWhenKeyIsNotFound(string[] options, string searchTerm)
         {
             var propertyName = nameof(PropertyOptionPair.Option);
@@ -63,17 +55,17 @@ namespace Nut.CommandLineParser.Test.Models
 
             var pairs = new PropertyOptionPairs(collection);
             pairs.Count.Should().Be(collection.Count);
-            
+
             var found = pairs.TryFindByOption(searchTerm, out var output);
             found.Should().BeFalse();
             output.Should().BeNull();
-        }  
+        }
 
         [Theory]
-        [InlineData(new[] { "two" }, "two")]
-        [InlineData(new[] { "alpha", "bravo", "charlie" }, "alpha")]
-        [InlineData(new[] { "alpha", "bravo", "charlie" }, "bravo")]
-        [InlineData(new[] { "alpha", "bravo", "charlie" }, "charlie")]
+        [InlineData(new[] {"two"}, "two")]
+        [InlineData(new[] {"alpha", "bravo", "charlie"}, "alpha")]
+        [InlineData(new[] {"alpha", "bravo", "charlie"}, "bravo")]
+        [InlineData(new[] {"alpha", "bravo", "charlie"}, "charlie")]
         public void MethodTryFindByOptionShouldReturnTrueAndOutputValidWhenKeyIsFound(string[] options, string searchTerm)
         {
             var propertyName = nameof(PropertyOptionPair.Option);
@@ -86,10 +78,18 @@ namespace Nut.CommandLineParser.Test.Models
             var pairs = new PropertyOptionPairs(collection);
             pairs.Count.Should().Be(collection.Count);
             pairs.Any().Should().BeTrue();
-            
+
             var found = pairs.TryFindByOption(searchTerm, out var output);
             found.Should().BeTrue();
             output.Should().BeSameAs(property);
-        }  
+        }
+
+        [Fact]
+        public void ParameterlessConstructorShouldInitializeEmptyCollection()
+        {
+            var pairs = new PropertyOptionPairs();
+            pairs.Count.Should().Be(0);
+            pairs.Any().Should().BeFalse();
+        }
     }
 }

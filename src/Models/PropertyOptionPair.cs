@@ -7,6 +7,12 @@ namespace Nut.CommandLineParser.Models
     {
         private PropertyInfo _property;
 
+        public PropertyOptionPair(PropertyInfo property, string option)
+        {
+            Property = property;
+            Option = option;
+        }
+
         public PropertyInfo Property
         {
             get => _property;
@@ -14,11 +20,5 @@ namespace Nut.CommandLineParser.Models
         }
 
         public string Option { get; set; }
-
-        public PropertyOptionPair(PropertyInfo property, string option)
-        {
-            Property = property;
-            Option = option;   
-        }
     }
 }

@@ -5,18 +5,18 @@ namespace Nut.CommandLineParser.Exceptions
 {
     public class UnboundTokenException : Exception
     {
-        public string Token { get; }
-
         public UnboundTokenException(string token)
-            : this(token, UnboundTokenException.GenerateMessage(token))
+            : this(token, GenerateMessage(token))
         {
         }
 
         private UnboundTokenException(string token, string message)
-            : base(message) 
+            : base(message)
         {
-            this.Token = token;
+            Token = token;
         }
+
+        public string Token { get; }
 
         private static string GenerateMessage(string token)
         {

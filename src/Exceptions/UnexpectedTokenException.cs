@@ -5,21 +5,21 @@ namespace Nut.CommandLineParser.Exceptions
 {
     public class UnexpectedTokenException : Exception
     {
-        public int Index { get; }
-
-        public string Token { get; }
-
         public UnexpectedTokenException(int index, string token)
             : this(index, token, GenerateMessage(index, token))
         {
         }
 
         private UnexpectedTokenException(int index, string token, string message)
-            : base(message) 
+            : base(message)
         {
             Index = index;
             Token = token;
         }
+
+        public int Index { get; }
+
+        public string Token { get; }
 
         private static string GenerateMessage(int index, string token)
         {

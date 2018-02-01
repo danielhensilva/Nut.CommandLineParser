@@ -1,17 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Nut.CommandLineParser.Models;
 using Nut.CommandLineParser.Exceptions;
 using Nut.CommandLineParser.Extensions;
+using Nut.CommandLineParser.Models;
 
 namespace Nut.CommandLineParser.Specialized
 {
     internal class KeyValuePairParser : ISpecializedParser<ArgKeyValuePairs>
     {
-        public ArgKeyValuePairs Parse(string args) 
+        public ArgKeyValuePairs Parse(string args)
         {
-            if (args == null) 
+            if (args == null)
                 throw new ArgumentNullException(nameof(args));
 
             if (args.IsEmptyOrWhitespace())
@@ -22,19 +22,19 @@ namespace Nut.CommandLineParser.Specialized
             return collection;
         }
 
-        private static IEnumerable<ArgKeyValuePair> ParseTokens(string args) 
+        private static IEnumerable<ArgKeyValuePair> ParseTokens(string args)
         {
             var currentArgs = args;
 
-            while(true)
+            while (true)
             {
                 if (currentArgs.IsEmptyOrWhitespace())
                     yield break;
 
                 var keyValue = ParseToken(currentArgs, out var match);
-                if (keyValue == null) 
+                if (keyValue == null)
                     break;
-                
+
                 currentArgs = currentArgs.Remove(0, match.Length);
                 yield return keyValue;
             }
@@ -45,12 +45,12 @@ namespace Nut.CommandLineParser.Specialized
             var token = currentArgs.FirstWordOrDefault();
             throw new UnexpectedTokenException(index, token);
         }
-                
-        private static ArgKeyValuePair ParseToken(string args, out string match) 
+
+        private static ArgKeyValuePair ParseToken(string args, out string match)
         {
             match = null;
 
-            string[] patterns = 
+            string[] patterns =
             {
                 @"^\s*--(\w+?)\s+""(.+?)""",
                 @"^\s*-(\w{1})\s+""(.+?)""",
@@ -59,21 +59,17 @@ namespace Nut.CommandLineParser.Specialized
                 @"^\s*--(\w+?)\s+(\w+?)\b",
                 @"^\s*-(\w{1})\s+(\w+?)\b",
                 @"^\s*\b(\w+?)=(\w+?)\b",
-                @"^\s*\b(\w+)\b",
+                @"^\s*\b(\w+)\b"
             };
 
             foreach (var pattern in patterns)
-            {
-                if (MatchNext(args, pattern, out match, out var key, out var value)) 
-                {
+                if (MatchNext(args, pattern, out match, out var key, out var value))
                     return new ArgKeyValuePair(key, value);
-                }
-            }
-            
+
             return null;
         }
 
-        private static bool MatchNext(string args, string pattern, out string match, out string key, out string value) 
+        private static bool MatchNext(string args, string pattern, out string match, out string key, out string value)
         {
             key = null;
             value = null;
@@ -81,13 +77,13 @@ namespace Nut.CommandLineParser.Specialized
 
             var regex = new Regex(pattern);
             var regexMatch = regex.Match(args);
-            
+
             if (!regexMatch.Success)
                 return false;
 
             if (regexMatch.Groups == null)
                 return false;
-                
+
             if (regexMatch.Groups.Count == 0)
                 return false;
 

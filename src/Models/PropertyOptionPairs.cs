@@ -26,12 +26,12 @@ namespace Nut.CommandLineParser.Models
 
         public IEnumerator<PropertyOptionPair> GetEnumerator()
         {
-            return ((IEnumerable<PropertyOptionPair>)_collection).GetEnumerator();
+            return ((IEnumerable<PropertyOptionPair>) _collection).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable<PropertyOptionPair>)_collection).GetEnumerator();
+            return ((IEnumerable<PropertyOptionPair>) _collection).GetEnumerator();
         }
 
         internal string[] GetDuplicatedOptions()
@@ -45,7 +45,6 @@ namespace Nut.CommandLineParser.Models
                     continue;
 
                 duplicated.Add(item.Option);
-
             }
 
             return duplicated.ToArray();
@@ -55,9 +54,9 @@ namespace Nut.CommandLineParser.Models
         {
             foreach (var item in _collection)
             {
-                if (!item.Option.Equals(option, StringComparison.Ordinal)) 
+                if (!item.Option.Equals(option, StringComparison.Ordinal))
                     continue;
-                
+
                 property = item.Property;
                 return true;
             }
