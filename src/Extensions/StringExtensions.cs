@@ -75,9 +75,11 @@ namespace Nut.CommandLineParser.Extensions
                 return Convert.ChangeType(value, type);
 
             if (type == typeof(decimal))
-                return decimal.Parse(value);
-            
-            if (type == typeof(bool))
+            {
+                if (decimal.TryParse(value, out var newDecimalValue))
+                    return newDecimalValue;
+            }
+            else if (type == typeof(bool))
             {
                 if (bool.TryParse(value, out var newBooleanValue))
                     return newBooleanValue;
