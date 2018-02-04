@@ -28,10 +28,8 @@ namespace Nut.CommandLineParser.Test.Models
         [Fact]
         public void PropertyKeyShouldThrowExceptionForNull()
         {
-            string key = null;
-
             var exception = Assert.Throws<ArgumentNullException>(() =>
-                new ArgKeyValuePair(key, "value")
+                new ArgKeyValuePair(null, "value")
             );
 
             exception.ParamName.Should().Be("key");

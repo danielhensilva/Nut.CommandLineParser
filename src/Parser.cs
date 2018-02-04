@@ -5,14 +5,18 @@ namespace Nut.CommandLineParser
 {
     public class Parser : IParser
     {
-        public ArgKeyValuePairs ParseToKeyValuePairs(string args)
+        public ArgKeyValuePairs ParseToKeyValuePairs(params string[] args)
         {
-            return new KeyValuePairParser().Parse(args);
+            var parser = new KeyValuePairParser();
+            var jointArgs = string.Join(" ", args);
+            return parser.Parse(jointArgs);
         }
 
-        public TElement ParseToObject<TElement>(string args) where TElement : new()
+        public TElement ParseToObject<TElement>(params string[] args) where TElement : new()
         {
-            return new ObjectParser<TElement>().Parse(args);
+            var parser = new ObjectParser<TElement>();
+            var jointArgs = string.Join(" ", args);
+            return parser.Parse(jointArgs);
         }
     }
 }

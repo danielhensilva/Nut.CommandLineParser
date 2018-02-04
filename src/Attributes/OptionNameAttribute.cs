@@ -25,9 +25,6 @@ namespace Nut.CommandLineParser.Attributes
 
         public string Name { get; }
 
-        public string GetValue()
-        {
-            return Name;
-        }
+        public string GetValue() => Name;
     }
 }

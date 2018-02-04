@@ -1,4 +1,4 @@
-namespace Nut.CommandLineParser
+namespace Nut.CommandLineParser.Attributes
 {
     public interface IOptionAttribute
     {

@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Reflection;
+using Nut.CommandLineParser.Attributes;
 using Nut.CommandLineParser.Exceptions;
 using Nut.CommandLineParser.Extensions;
 using Nut.CommandLineParser.Models;

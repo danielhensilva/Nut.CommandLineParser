@@ -15,9 +15,6 @@ namespace Nut.CommandLineParser.Attributes
 
         public char Alias { get; }
 
-        public string GetValue()
-        {
-            return Alias.ToString();
-        }
+        public string GetValue() => Alias.ToString();
     }
 }

@@ -4,7 +4,7 @@ namespace Nut.CommandLineParser.Models
 {
     public class ArgKeyValuePair
     {
-        private string key;
+        private string _key;
 
         public ArgKeyValuePair(string key, string value)
         {
@@ -14,14 +14,8 @@ namespace Nut.CommandLineParser.Models
 
         public string Key
         {
-            get => key;
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException(nameof(key));
-
-                key = value;
-            }
+            get => _key;
+            set => _key = value ?? throw new ArgumentNullException(nameof(_key));
         }
 
         public string Value { get; set; }

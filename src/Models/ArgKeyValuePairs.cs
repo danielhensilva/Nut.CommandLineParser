@@ -5,30 +5,30 @@ namespace Nut.CommandLineParser.Models
 {
     public class ArgKeyValuePairs : IEnumerable<ArgKeyValuePair>
     {
-        private readonly List<ArgKeyValuePair> collection;
+        private readonly List<ArgKeyValuePair> _collection;
 
         public ArgKeyValuePairs()
         {
-            collection = new List<ArgKeyValuePair>();
+            _collection = new List<ArgKeyValuePair>();
         }
 
         public ArgKeyValuePairs(IEnumerable<ArgKeyValuePair> collection)
         {
-            this.collection = new List<ArgKeyValuePair>(collection);
+            _collection = new List<ArgKeyValuePair>(collection);
         }
 
-        public int Count => collection.Count;
+        public int Count => _collection.Count;
 
-        public ArgKeyValuePair this[int index] => collection[index];
+        public ArgKeyValuePair this[int index] => _collection[index];
 
         public IEnumerator<ArgKeyValuePair> GetEnumerator()
         {
-            return ((IEnumerable<ArgKeyValuePair>) collection).GetEnumerator();
+            return ((IEnumerable<ArgKeyValuePair>) _collection).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable<ArgKeyValuePair>) collection).GetEnumerator();
+            return ((IEnumerable<ArgKeyValuePair>) _collection).GetEnumerator();
         }
     }
 }
