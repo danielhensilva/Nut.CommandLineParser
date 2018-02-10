@@ -1,5 +1,6 @@
 ﻿using System;
 using Nut.CommandLineParser.Attributes;
+using Nut.CommandLineParser.Exceptions;
 
 namespace Nut.CommandLineParser.Docs
 {
@@ -20,6 +21,18 @@ namespace Nut.CommandLineParser.Docs
             Console.WriteLine();
             Console.WriteLine("# Example3");
             Example3();
+
+            Console.WriteLine();
+            Console.WriteLine("# Example4");
+            Example4();
+
+            Console.WriteLine();
+            Console.WriteLine("# Example5");
+            Example5();
+
+            Console.WriteLine();
+            Console.WriteLine("# Example6");
+            Example6();
 
             Console.WriteLine();
             Console.WriteLine("Exit...");
@@ -54,6 +67,48 @@ namespace Nut.CommandLineParser.Docs
             Console.WriteLine("StockQtd -> {0}", output.StockQtd);
             Console.WriteLine("StockPrice -> {0}", output.StockPrice);
         }
+
+        static void Example4()
+        {
+            try
+            {
+                var args = "--z 10";
+                new Parser().ParseToObject<MyBook>(args);
+            }
+            catch (UnboundTokenException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("Token: {0}", ex.Token);
+            }
+        }
+
+        static void Example5()
+        {
+            try
+            {
+                var args = "id=19 name=\"A duck story\" qtd~4 value=14.99";
+                new Parser().ParseToObject<MyBook>(args);
+            }
+            catch (UnexpectedTokenException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("Token: {0}", ex.Token);
+            }
+        }
+
+        static void Example6()
+        {
+            try
+            {
+                var args = "filename=sample.txt";
+                new Parser().ParseToObject<Storage>(args);
+            }
+            catch (DuplicatedOptionsException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("Tokens: {0}", string.Join("|", ex.Duplications));
+            }
+        }
     }
 
     class MyBook
@@ -75,5 +130,18 @@ namespace Nut.CommandLineParser.Docs
         [OptionName("value")]
         [OptionName("pricing")]
         public decimal StockPrice { get; set; }
+    }
+
+    class Storage
+    {
+        [OptionName("path")]
+        public string Path { get; set; }
+
+        [OptionName("path")]
+        [OptionName("filename")]
+        public string FileName { get; set; }
+
+        [OptionName("filename")]
+        public string Extension { get; set; }
     }
 }

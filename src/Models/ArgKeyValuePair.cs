@@ -15,7 +15,7 @@ namespace Nut.CommandLineParser.Models
         public string Key
         {
             get => _key;
-            set => _key = value ?? throw new ArgumentNullException(nameof(_key));
+            set => _key = value ?? throw new ArgumentNullException("key");
         }
 
         public string Value { get; set; }

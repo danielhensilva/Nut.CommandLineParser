@@ -26,7 +26,7 @@ namespace Nut.CommandLineParser.Exceptions
                 throw new ArgumentException("Value cannot be an empty collection.", nameof(duplications));
 
             var elements = string.Join(", ", duplications);
-            return $"Duplicated options key are found: [{elements}].";
+            return $"Duplicated keys are found: [{elements}].";
         }
     }
 }
