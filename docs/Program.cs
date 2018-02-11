@@ -41,11 +41,17 @@ namespace Nut.CommandLineParser.Docs
 
         static void Example1()
         {
-            var args = "primary=blue secondary=\"purple and red\" --optional yes";
+            var args = "ChangeColor primary=blue secondary=\"purple and red\" --optional yes";
             var output = new Parser().ParseToKeyValuePairs(args);
 
             foreach (var item in output)
-                Console.WriteLine(item.Key + " -> " + item.Value);
+                Console.WriteLine("{0} -> {1}", item.Key, item.Value ?? "(null)");
+
+            // Output:
+            //
+            // primary -> blue
+            // secondary -> purple and red
+            // optional -> yes
         }
 
         static void Example2()
@@ -54,7 +60,14 @@ namespace Nut.CommandLineParser.Docs
             var output = new Parser().ParseToKeyValuePairs(args);
 
             foreach (var item in output)
-                Console.WriteLine(item.Key + " -> " + item.Value);
+                Console.WriteLine("{0} -> {1}", item.Key, item.Value ?? "(null)");
+            
+            // Output:
+            //
+            // first -> Alice
+            // last -> Souza
+            // fullname -> Alice Souza
+            // a -> AS
         }
 
         static void Example3()
@@ -66,6 +79,13 @@ namespace Nut.CommandLineParser.Docs
             Console.WriteLine("BookName -> {0}", output.BookName);
             Console.WriteLine("StockQtd -> {0}", output.StockQtd);
             Console.WriteLine("StockPrice -> {0}", output.StockPrice);
+            
+            // Output:
+            //
+            // BookId -> 19
+            // BookName -> A duck story
+            // StockQtd -> 4
+            // StockPrice -> 14.99
         }
 
         static void Example4()
@@ -80,6 +100,11 @@ namespace Nut.CommandLineParser.Docs
                 Console.WriteLine(ex.Message);
                 Console.WriteLine("Token: {0}", ex.Token);
             }
+            
+            // Output:
+            //
+            // Unbound token z.
+            // Token: z
         }
 
         static void Example5()
@@ -93,7 +118,14 @@ namespace Nut.CommandLineParser.Docs
             {
                 Console.WriteLine(ex.Message);
                 Console.WriteLine("Token: {0}", ex.Token);
+                Console.WriteLine("Index: {0}", ex.Index);
             }
+            
+            // Output:
+            //
+            // Unexpected token ~4 at index 29.
+            // Token: ~4
+            // Index: 29
         }
 
         static void Example6()
@@ -108,6 +140,11 @@ namespace Nut.CommandLineParser.Docs
                 Console.WriteLine(ex.Message);
                 Console.WriteLine("Tokens: {0}", string.Join("|", ex.Duplications));
             }
+            
+            // Output:
+            //
+            // Duplicated keys are found: [path, filename].
+            // Tokens: path|filename
         }
     }
 
