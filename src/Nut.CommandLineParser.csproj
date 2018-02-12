@@ -5,9 +5,11 @@
     <IsPackable>true</IsPackable>
     <PackageVersion>1.0.0</PackageVersion>
     <PackageId>Nut.CommandLineParser</PackageId>
-    <Title>Nut's Command Line Parser</Title>
+    <Title>Command Line Parser</Title>
     <Authors>Daniel H. da Silva</Authors>
     <Description>Simple arguments parser for command line applications.</Description>
     <RepositoryUrl>https://github.com/danielhensilva/Nut.CommandLineParser</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/danielhensilva/Nut.CommandLineParser</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/danielhensilva/Nut.CommandLineParser/blob/master/LICENSE</PackageLicenseUrl>
   </PropertyGroup>
 </Project>
