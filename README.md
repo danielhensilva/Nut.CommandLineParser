@@ -7,7 +7,7 @@
 
 Just import `Nut.CommandLineParser` namespaces:
 ```c#
-usign Nut.CommandLineParser
+using Nut.CommandLineParser;
 using Nut.CommandLineParser.Attributes;
 using Nut.CommandLineParser.Exceptions;
 ```
